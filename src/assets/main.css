@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-primary text-gray-800 antialiased;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-montserrat font-semibold;
+  }
+
+  p, span, div {
+    @apply font-open-sans;
+  }
+}
+
+@layer components {
+  /* Composants de boutons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-accent hover:bg-primary-800 focus:ring-primary-500;
+  }
+
+  .btn-primary-accent {
+    @apply bg-primary-accent text-primary hover:bg-primary-accent-400 focus:ring-primary-accent-500;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-700 focus:ring-secondary-500;
+  }
+
+  .btn-secondary-accent {
+    @apply bg-secondary-accent text-white hover:bg-secondary-accent-600 focus:ring-secondary-accent-500;
+  }
+
+  .btn-outline-primary {
+    @apply border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-primary-accent focus:ring-primary-500;
+  }
+
+  .btn-outline-secondary {
+    @apply border-2 border-secondary text-secondary bg-transparent hover:bg-secondary hover:text-white focus:ring-secondary-500;
+  }
+
+  /* Composants de cartes */
+  .card {
+    @apply bg-white rounded-xl shadow-medium border border-gray-100 overflow-hidden;
+  }
+
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-100;
+  }
+
+  .card-body {
+    @apply px-6 py-4;
+  }
+
+  .card-footer {
+    @apply px-6 py-4 border-t border-gray-100 bg-gray-50;
+  }
+
+  /* Composants de formulaires */
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+
+  .form-error {
+    @apply text-error text-sm mt-1;
+  }
+
+  .form-help {
+    @apply text-gray-500 text-sm mt-1;
+  }
+
+  /* Composants de navigation */
+  .nav-link {
+    @apply text-gray-600 hover:text-primary font-medium transition-colors duration-200;
+  }
+
+  .nav-link-active {
+    @apply text-primary font-semibold;
+  }
+
+  /* Composants d'alerte */
+  .alert {
+    @apply px-4 py-3 rounded-lg border;
+  }
+
+  .alert-success {
+    @apply bg-green-50 border-green-200 text-green-800;
+  }
+
+  .alert-warning {
+    @apply bg-yellow-50 border-yellow-200 text-yellow-800;
+  }
+
+  .alert-error {
+    @apply bg-red-50 border-red-200 text-red-800;
+  }
+
+  .alert-info {
+    @apply bg-blue-50 border-blue-200 text-blue-800;
+  }
+}
+
+@layer utilities {
+  /* Utilitaires personnalisés */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary-accent bg-clip-text text-transparent;
+  }
+
+  .text-gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary-accent bg-clip-text text-transparent;
+  }
+
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary-800;
+  }
+
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary-700;
+  }
+
+  /* Animations personnalisées */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Utilitaires de typographie */
+  .heading-1 {
+    @apply text-4xl md:text-5xl font-montserrat font-bold text-gray-900;
+  }
+
+  .heading-2 {
+    @apply text-3xl md:text-4xl font-montserrat font-bold text-gray-900;
+  }
+
+  .heading-3 {
+    @apply text-2xl md:text-3xl font-montserrat font-semibold text-gray-900;
+  }
+
+  .body-large {
+    @apply text-lg font-open-sans text-gray-700;
+  }
+
+  .body-small {
+    @apply text-sm font-open-sans text-gray-600;
+  }
+
+  /* Utilitaires pour le responsive */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Utilitaires pour les états de chargement */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-gray-300 border-t-primary;
+  }
+}
+
+
+
+
+/*@import './base.css';*/
+
+/*@tailwind base;*/
+/*@tailwind components;*/
+/*@tailwind utilities;*/
+
+/*:root {*/
+/*  --primary: #1c3461;*/
+/*  --primary-accent: #FFED66;*/
+/*  --primary-accent-rgb: 255, 237, 102;*/
+
+/*  --secondary: #45ab34;*/
+/*  --secondary-accent: #ff002f;*/
+/*  --secondary-accent-rgb: 255, 237, 102;*/
+
+/*  --font-primary: "Montserrat", sans-serif;*/
+/*}*/
+
+/*body, html {*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*  box-sizing: border-box;*/
+/*}*/
+
+/*.text-italic {*/
+/*  font-style: italic !important;*/
+/*}*/
+
+/*.bg-test {*/
+/*  background-color: #ff002f !important;*/
+/*}*/
+
+/*!*.bg-primary {*!*/
+/*!*    background-color: var(--primary) !important;*!*/
+/*!*}*!*/
+
+/*!*.text-primary {*!*/
+/*!*    color: var(--primary) !important;*!*/
+/*!*}*!*/
+
+/*.text-primary-accent {*/
+/*  color: var(--primary-accent) !important;*/
+/*}*/
+
+/*.btn {*/
+/*  border: none;*/
+/*  outline: none;*/
+/*  cursor: pointer;*/
+/*  !*display: inline-block;*!*/
+/*  display: flex;*/
+/*  padding: 1rem 2rem;*/
+/*  font-family: var(--font-primary), sans-serif !important;*/
+/*  font-size: 1rem;*/
+/*  font-weight: 700;*/
+/*  border-radius: 0.25rem !important;*/
+/*  transition: background-color 0.15s ease-in-out;*/
+/*}*/
+
+/*.btn-primary {*/
+/*  color: var(--primary-accent) !important;*/
+/*  background-color: var(--primary) !important;*/
+/*}*/
+/*.btn-primary-accent {*/
+/*  color: var(--primary) !important;*/
+/*  background-color: var(--primary-accent) !important;*/
+/*}*/
+/*.btn-primary-accent:hover {*/
+/*  color: var(--primary-accent) !important;*/
+/*  background-color: rgba(var(--primary-accent-rgb), 0.25) !important;*/
+/*}*/
+
+/*.btn-secondary {*/
+/*  color: var(--vt-c-white) !important;*/
+/*  background-color: var(--secondary) !important;*/
+/*}*/
+/*!*.btn-secondary:hover {*!*/
+/*!*    color: var(--secondary-accent) !important;*!*/
+/*!*    background-color: rgba(var(--secondary-accent-rgb), 0.25) !important;*!*/
+/*!*}*!*/
+/*!*.btn-secondary-accent {*!*/
+/*!*    color: var(--secondary) !important;*!*/
+/*!*    background-color: var(--secondary-accent) !important;*!*/
+/*!*}*!*/
+/*!*.btn-secondary-accent:hover {*!*/
+/*!*    color: var(--secondary-accent) !important;*!*/
+/*!*    background-color: rgba(var(--secondary-accent-rgb), 0.25) !important;*!*/
+/*!*}*!*/
+
+/*.montserrat {*/
+/*  font-family: "Montserrat", sans-serif;*/
+/*  font-optical-sizing: auto;*/
+/*  font-weight: 500;*/
+/*  font-style: normal;*/
+/*}*/
+
+/*.montserrat-100 {*/
+/*  font-weight: 100 !important;*/
+/*}*/
+
+/*.montserrat-200 {*/
+/*  font-weight: 200 !important;*/
+/*}*/
+
+/*.montserrat-300 {*/
+/*  font-weight: 300 !important;*/
+/*}*/
+
+/*.montserrat-400 {*/
+/*  font-weight: 400 !important;*/
+/*}*/
+
+/*.montserrat-500 {*/
+/*  font-weight: 500 !important;*/
+/*}*/
+
+/*.montserrat-600 {*/
+/*  font-weight: 600 !important;*/
+/*}*/
+
+/*.montserrat-700 {*/
+/*  font-weight: 700 !important;*/
+/*}*/
+
+/*.montserrat-800 {*/
+/*  font-weight: 800 !important;*/
+/*}*/
+
+/*.montserrat-900 {*/
+/*  font-weight: 900 !important;*/
+/*}*/
+
+/*.open-sans{*/
+/*  font-family: "Open Sans", sans-serif;*/
+/*  font-optical-sizing: auto;*/
+/*  font-weight: 500;*/
+/*  font-style: normal;*/
+/*  font-variation-settings: "wdth" 100;*/
+/*}*/
+
+/*.open-sans-300{*/
+/*  font-weight: 300 !important;*/
+/*}*/
+
+/*.open-sans-400{*/
+/*  font-weight: 400 !important;*/
+/*}*/
+
+/*.open-sans-600{*/
+/*  font-weight: 600 !important;*/
+/*}*/
+
+/*.open-sans-700{*/
+/*  font-weight: 700 !important;*/
+/*}*/
+/*.open-sans-800{*/
+/*  font-weight: 800 !important;*/
+/*}*/
