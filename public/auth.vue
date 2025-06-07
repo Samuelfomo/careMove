@@ -1,92 +1,120 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex flex-col">
+  <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="p-6">
-      <div class="flex items-center justify-center">
-        <div class="text-3xl font-bold text-primary">
-          Share<span class="text-secondary">Wuma</span>
-        </div>
-      </div>
-    </header>
+<!--    <header class="p-6">-->
+<!--      <div class="flex items-center justify-center">-->
+<!--        <div class="text-3xl font-bold text-primary">-->
+<!--          Share<span class="text-secondary">Wuma</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </header>-->
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center px-4 pb-10">
-      <div class="w-full max-w-md">
+    <main class="flex-1 flex items-center justify-center px-4 pb-10 bg-[url(@/assets/images/bg4.jpg)]">
+      <div class="w-full max-w-2xl">
 
         <!-- Interface de connexion par token -->
-        <div v-if="currentView === 'token'" ref="tokenForm" class="bg-white rounded-3xl shadow-strong p-8">
-          <div class="text-center mb-8">
-            <div class="w-16 h-16 bg-primary-accent rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <h2 class="text-2xl font-bold text-primary mb-2">Authentification</h2>
-            <p class="text-gray-600">Saisir votre token d'authentification</p>
-          </div>
+        <div v-if="currentView === 'token'" ref="tokenForm" class="bg-black">
+          <div  class="bg-white shadow-strong p-10">
+            <!--            <div class="mb-8 flex items-center space-x-2 border-b pb-8 ">-->
+            <!--              <div class="w-12 h-12 flex items-center justify-center">-->
+            <!--                <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1"-->
+            <!--                      stroke-linecap="round"  stroke-linejoin="round"  class="h-12 w-12">-->
+            <!--                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />-->
+            <!--                  <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" class="text-secondary" /><path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" class="text-secondary" />-->
+            <!--                </svg>-->
+            <!--              </div>-->
+            <!--               <h2 class="text-2xl font-normal text-gray-700">Authentification</h2>-->
 
-          <form @submit.prevent="loginWithToken" class="space-y-6">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Entrer votre token <span class="text-error">*</span>
-              </label>
-              <input
-                v-model="tokenData.token"
-                type="text"
-                placeholder="Votre token d'authentification"
-                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent transition-all duration-200"
-                :class="{ 'border-error': tokenError }"
-              />
-              <div v-if="tokenError" class="text-error text-sm mt-1">{{ tokenError }}</div>
+            <!--            </div>-->
+            <div class="mb-8 flex items-center space-x-2 pb-8 relative">
+              <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-white via-secondary to-white"></div>
+
+              <div class="w-12 h-12 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="1"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="h-12 w-12">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                  <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" class="text-secondary" />
+                  <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" class="text-secondary" />
+                </svg>
+              </div>
+
+              <h2 class="text-2xl font-normal text-gray-700">Authentification</h2>
             </div>
 
-            <div class="text-right">
+            <form @submit.prevent="loginWithToken" class="space-y-6">
+              <div>
+                <label class="block lg:text-base text-sm font-semibold text-black mb-2">
+                  Saisir votre e-mail pour une demande de jeton d'authentification <span class="text-error">*</span>
+                </label>
+                <input
+                  v-model="tokenData.token"
+                  type="text"
+                  placeholder="Entrer votre email"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1
+                 focus:ring-secondary focus:border-transparent transition-all duration-200 placeholder:text-primary text-secondary font-medium"
+                  :class="{ 'border-secondary-accent-600 bg-secondary-accent-100': tokenError }"
+                />
+                <!--              <div v-if="tokenError" class="text-secondary-accent-600 text-sm mt-1">{{ tokenError }}</div>-->
+              </div>
+
+              <div class="text-right">
+                <button
+                  type="button"
+                  @click="switchView('request')"
+                  class="text-secondary hover:text-secondary-600 text-sm font-medium transition-colors"
+                >
+                  J'ai un token valide
+                </button>
+              </div>
+
               <button
-                type="button"
-                @click="switchView('request')"
-                class="text-secondary hover:text-secondary-600 text-sm font-medium transition-colors"
+                type="submit"
+                :disabled="isLoading"
+                class="w-full bg-primary text-white py-3 rounded-xl font-medium hover:bg-primary-800 transition-all duration-200 disabled:opacity-50"
               >
-                J'ai un token valide
-              </button>
-            </div>
-
-            <button
-              type="submit"
-              :disabled="isLoading"
-              class="w-full bg-primary text-white py-3 rounded-xl font-medium hover:bg-primary-800 transition-all duration-200 disabled:opacity-50"
-            >
-              <span v-if="!isLoading">Envoyer</span>
-              <span v-else class="flex items-center justify-center">
+                <span v-if="!isLoading">Envoyer</span>
+                <span v-else class="flex items-center justify-center">
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 Connexion...
               </span>
-            </button>
-          </form>
-
-          <div class="mt-6 p-4 bg-secondary-50 rounded-xl border border-secondary-200">
-            <p class="text-gray-700 text-sm">
-              Vous n'avez pas de compte ?
-              <button @click="switchView('request')" class="text-secondary hover:text-secondary-600 font-medium ml-1">
-                Demande d'ouverture de compte ici
               </button>
-            </p>
-          </div>
+            </form>
 
-          <div class="mt-8 text-center">
+            <!--          <div class="mt-6 p-4 bg-secondary-50 rounded-xl border border-secondary-200">-->
+            <!--            <p class="text-gray-700 text-sm">-->
+            <!--              Vous n'avez pas de compte ?-->
+            <!--              <button @click="switchView('request')" class="text-secondary hover:text-secondary-600 font-medium ml-1">-->
+            <!--                Demande d'ouverture de compte ici-->
+            <!--              </button>-->
+            <!--            </p>-->
+            <!--          </div>-->
+
+          </div>
+          <div class="p-8 text-center bg-secondary-50 flex flex-col space-y-2 border-t border-secondary-100/60">
+            <button
+              class="text-gray-700 hover:text-primary-800 text-base font-normal transition-colors"
+            >
+              Vous n'avez pas de compte ?
+            </button>
             <button
               @click="switchView('email')"
-              class="text-primary hover:text-primary-600 text-sm font-medium transition-colors"
+              class="text-primary text-base font-medium transition-colors"
             >
-              Se connecter avec email/mot de passe
+              Demande d'ouverture de compte ici
             </button>
           </div>
         </div>
 
+
         <!-- Interface de demande de token -->
-        <div v-if="currentView === 'request'" ref="requestForm" class="bg-white rounded-3xl shadow-strong p-8">
+        <div v-if="currentView === 'request'" ref="requestForm" class="bg-white shadow-strong p-8">
           <div class="text-center mb-8">
             <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -177,7 +205,7 @@
         </div>
 
         <!-- Interface de connexion email/password -->
-        <div v-if="currentView === 'email'" ref="emailForm" class="bg-white rounded-3xl shadow-strong p-8">
+        <div v-if="currentView === 'email'" ref="emailForm" class="bg-white shadow-strong p-8">
           <div class="text-center mb-8">
             <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -277,14 +305,13 @@
     </main>
 
     <!-- Footer adapté pour ShareWuma -->
-    <Footer />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
-import Footer from "@public/components/footer.vue";
+import { IconUser } from '@tabler/icons-vue';
 
 // État réactif
 const currentView = ref('token') // 'token', 'request', 'email'
