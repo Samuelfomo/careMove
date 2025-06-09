@@ -77,7 +77,7 @@
                   <IconUserCircle stroke="2" class="w-8 h-8 text-secondary-600" />
                   <div>
                     <p class="font-medium text-gray-900">The Peace</p>
-                    <p class="text-sm text-gray-500">thepeace@example.com</p>
+                    <p class="text-sm text-gray-500">thepeace@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -174,10 +174,11 @@
               </router-link>
             </nav>
 
-            <button type="button"
-                    class="flex justify-center items-center gap-2 text-lg p-2 mt-2 font-montserrat font-semibold shadow-md rounded-xl bg-secondary hover:border hover:border-transparent text-white transition-transform duration-700 hover:scale-105"
+            <button
+              type="button"
+              @click="router.push('/connexion')"
+                    class="flex z-50 justify-center items-center gap-2 text-lg p-2 mt-2 font-montserrat font-semibold shadow-md rounded-xl bg-secondary hover:border hover:border-transparent text-white transition-transform duration-700 hover:scale-105"
                     :class="[$route.name === '' ? 'border-secondary text-secondary' : 'text-gray-800']"
-                    @click="handleLogin"
             >
               Connexion
               <IconLogin2 class="w-5 h-5" />
