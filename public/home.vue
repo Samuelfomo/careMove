@@ -3,12 +3,21 @@ import Header from "@public/components/header.vue";
 import Voyage from "@/assets/images/voiture.jpg"
 import Footer from "@public/components/footer.vue";
 import { useI18n } from 'vue-i18n'
+import SecureSection from "./components/SecureSection.vue";
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n()
+const router = useRouter();
+
+const handleLoadPoposeTrip = async () => {
+  // Redirection
+  router.push('/proposeTrip');
+}
+
 </script>
 
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="min-h-screen bg-white mt-">
     <Header />
 
     <!-- Hero Section - Recherche de transport -->
@@ -92,7 +101,7 @@ const { t } = useI18n()
               {{ t('home.proposeTrip') }}
             </h2>
 
-            <button class="bg-white rounded-lg shadow-xl transition-all duration-200 transform hover:scale-105 flex items-center mx-auto mb-8">
+            <button @click="handleLoadPoposeTrip" class="bg-white rounded-lg shadow-xl transition-all duration-200 transform hover:scale-105 flex items-center mx-auto mb-8">
               <svg class="w-14 h-12 bg-secondary rounded-lg text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
               </svg>
@@ -127,7 +136,6 @@ const { t } = useI18n()
             </a>
           </footer>
         </div>
-
         <!-- Service Card 2 -->
         <div class="flex flex-col justify-center items-center shadow-lg border rounded-lg">
           <header class="h-14 w-full bg-secondary-accent rounded-t-lg"></header>
@@ -143,7 +151,7 @@ const { t } = useI18n()
             </a>
           </footer>
         </div>
-
+        
         <!-- Service Card 3 -->
         <div class="flex flex-col justify-center items-center shadow-lg border rounded-lg">
           <header class="h-14 w-full bg-primary rounded-t-lg"></header>
@@ -161,6 +169,7 @@ const { t } = useI18n()
         </div>
       </div>
     </section>
+    <SecureSection/>
 
     <Footer />
   </div>

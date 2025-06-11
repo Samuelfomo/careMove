@@ -51,7 +51,15 @@ export default {
       bookButton: 'Book',
       regularTripsTitle: 'Regular trips?',
       regularTripsDescription: 'Organize your daily commute with others. Ideal for home-work trips.',
-      organizeButton: 'Organize'
+      organizeButton: 'Organize',
+    },
+    //section Securitee 100%
+    securitySolution:{
+      secureSolutionTitle:"Solution 100% sécurisée!",
+      profileVerifyTitle:"1 000+ Profils vérifiés",
+      profileVerifyDescription:"Plus de 3 millions de profils utilisateurs vérifiés en Afrique.",
+      laagerSecurityTitle:"Sécurité accrue",
+      laagerSecurityDescription:"Plus de 3 millions de profils utilisateurs vérifiés en Afrique.",
     },
 
     startTripToday: 'Start a trip today'

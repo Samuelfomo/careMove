@@ -4,6 +4,7 @@ import Auth from "@public/auth.vue";
 import Parrain from "@public/sponsorshipForm.vue";
 import Register from "@public/registrationForm.vue";
 import Register2 from "@public/QuickRegistration.vue";
+import ProposeTrip from '../../public/proposeTrip.vue';
 const routes = [
 
   {
@@ -31,6 +32,11 @@ const routes = [
     name: 'register2',
     component: Register2
   },
+  {
+    path: '/proposeTrip',
+    name:'proposeTrip',
+    component: ProposeTrip
+  }
 ];
 
 const router = createRouter({
