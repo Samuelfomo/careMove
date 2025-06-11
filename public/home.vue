@@ -134,7 +134,7 @@ const { t } = useI18n()
           <main class="w-full py-2 place-items-center px-4">
             <h3 class="leading-relaxed text-xl font-bold text-gray-600 my-1">{{ t('home.services.needRideTitle') }}</h3>
             <p class="text-sm text-primary font-serif leading-relaxed">
-              {{ t('home.services.needRideDescription') }}
+              {{ t('home.services.needRideDescription') }}<span class="text-transparent">espace ajouter </span>
             </p>
           </main>
           <footer class="py-4">
