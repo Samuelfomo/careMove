@@ -11,7 +11,7 @@
     <Header />
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center min-h-screen justify-center px-4 pb-10 bg-[url(@/assets/images/bg4.jpg)]">
+    <main class="flex-1 flex items-center min-h-screen justify-center px-4 pb-10 bg-[url(@/assets/images/bg3.jpg)]">
       <div class="w-full max-w-2xl lg:pt-0 pt-28">
 
         <!-- Interface 1 : Demande de token (maintenant première) -->
@@ -101,19 +101,19 @@
 
           <!-- App Download Section -->
           <div class="mt-8 grid grid-cols-3 gap-4">
-            <div class="flex flex-col items-center p-4 bg-secondary transition-colors cursor-pointer text-white">
+            <div class="flex flex-col items-center text-center p-4 bg-secondary transition-colors cursor-pointer text-white">
               <svg class="w-8 h-8 mb-2" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
               </svg>
               <span class="text-xs">Version iPhone</span>
             </div>
-            <div class="flex flex-col items-center p-4 bg-secondary-accent transition-colors cursor-pointer text-white">
+            <div class="flex flex-col items-center text-center p-4 bg-secondary-accent transition-colors cursor-pointer text-white">
               <svg class="w-8 h-8 mb-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
               </svg>
               <span class="text-xs">Version Android</span>
             </div>
-            <div class="flex flex-col items-center p-4 bg-primary transition-colors cursor-pointer text-white">
+            <div class="flex flex-col items-center text-center p-4 bg-primary transition-colors cursor-pointer text-white">
               <svg class="w-8 h-8 mb-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3 3 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.98 5.98 0 01-2.516-.552l1.562-1.562a3 3 0 001.789.027zm-4.677-2.796a3 3 0 01-.041-2.08L6.754 7.674a5.98 5.98 0 00-.552 2.326 5.98 5.98 0 00.956 3.117zm-.787-3.21l1.525-1.525a3 3 0 012.183-.078l1.562-1.562A5.98 5.98 0 0010 4a5.98 5.98 0 00-3.117.956 5.98 5.98 0 00-.532 2.961z" clip-rule="evenodd"/>
               </svg>
