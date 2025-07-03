@@ -14,16 +14,13 @@
           <span class="cursor-pointer">{{ $t('nav.reservation') }}</span>
         </div>
         <div class="flex items-center justify-end space-x-10">
-          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md pl-4">
+
+          <div @click="handleLoadSearchTrip" class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 px-4 cursor-pointer">
             <IconSearch stroke="{2}" />
-            <input
-              type="text"
-              :placeholder="$t('nav.search')"
-              class="bg-white text-primary p-1 rounded-md focus:outline-none focus:border-none max-w-[8rem] placeholder:text-primary-900"
-            />
+            <span class="text-nowrap">Rechercher</span>
           </div>
 
-          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 px-4 cursor-pointer">
+          <div @click="handleLoadProposeTrip" class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 px-4 cursor-pointer">
             <IconCirclePlus stroke="{2}" />
             <span class="text-nowrap">{{ $t('nav.publishTrip') }}</span>
           </div>
@@ -90,7 +87,7 @@
               <div class="py-2">
                 <a href="#" class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 transition-colors">
                   <IconUser :stroke="2" class="w-4 h-4" />
-                  <span class="text-sm">{{ $t('user.profile') }}</span>
+                  <span @click="handleLoadProfil" class="text-sm">{{ $t('user.profile') }}</span>
                 </a>
                 <a href="#" class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 transition-colors">
                   <IconSettings :stroke="2" class="w-4 h-4" />
@@ -205,6 +202,19 @@ import { gsap } from 'gsap';
 
 const router = useRouter()
 const { locale } = useI18n()
+
+const handleLoadSearchTrip = async () => {
+  // Redirection
+  router.push('/searchTrip');
+}
+const handleLoadProposeTrip = async () => {
+  // Redirection
+  router.push('/proposeTrip');
+}
+
+const handleLoadProfil = async () =>{
+  router.push('/profil');
+}
 
 import Logo from "@/assets/images/logo.svg"
 import { IconSearch, IconCirclePlus, IconUserCircle, IconChevronDown, IconX, IconLanguage, IconUser, IconSettings, IconHistory, IconLogin, IconLogin2} from '@tabler/icons-vue';

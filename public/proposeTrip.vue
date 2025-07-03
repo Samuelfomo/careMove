@@ -1,153 +1,189 @@
 <template>
-  <div class="min-h-screen flex flex-col mx-auto">
+  <div class="min-h-screen flex flex-col border-b border-gray-600  bg-gradient-to-br from-[#E0F2FE] via-secondary-900 to-[#F0F0F0]">
     <Header />
 
-    <main class="flex-1 flex items-center justify-center px-4 pb-10 bg-[url(@/assets/images/bg4.jpg)]">
-      <div class="w-full max-w-2xl lg:pt-0 pt-28">
-        <div class="bg-white shadow-strong p-8">
-          <div class="mb-8 flex items-center space-x-2 pb-8 relative">
-            <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-white via-secondary to-white"></div>
+    <main class="flex-1 flex items-center justify-center px-4" style="background-image: url('@/assets/images/bg4.jpg')">
+      <div class="flex flex-col lg:flex-row items-center justify-center w-full max-w-6xl space-y-10 lg:space-y-0 lg:space-x-10 pt-24">
 
-            <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 5h16v10H2V5z" />
-              </svg>
-            </div>
-
-            <h2 class="text-2xl font-normal text-gray-700">Publication de Projet</h2>
+        <!-- Formulaire -->
+        <Motion
+          :initial="{ opacity: 0, y: 50 }"
+          :animate="{ opacity: 1, y: 0 }"
+          transition="{ duration: 0.5, ease: 'ease-out' }"
+          class="w-full max-w-md rounded-xl overflow-hidden shadow-xl"
+        >
+          <div class="bg-secondary-500 text-white px-6 py-6 ">
+            <h2 class="text-3xl font-bold text-center">Publier un trajet</h2>
+            <p class="text-sm mt-1 text-center">Vous avez un véhicule ?</p>
           </div>
 
-          <form @submit.prevent="publishProject" class="space-y-6">
-            <div>
-              <label class="block lg:text-base text-sm font-semibold text-black mb-2">
-                Adresse de départ <span class="text-error">*</span>
-              </label>
-              <div class="relative">
-                <div 
-                  @click="toggleDepartureDropdown" 
-                  class="cursor-pointer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-secondary transition-all duration-200"
-                >
-                  {{ projectData.departureAddress || 'Sélectionnez une ville' }}
-                </div>
-                <div v-if="isDepartureDropdownOpen" class="absolute z-10 w-full bg-white border border-gray-300 rounded-xl mt-1 max-h-60 overflow-y-auto">
-                  <input
-                    v-model="searchDeparture"
-                    type="text"
-                    placeholder="Rechercher une ville..."
-                    class="w-full px-4 py-2 border-b border-gray-300 focus:outline-none"
-                  />
-                  <div v-for="city in filteredDepartureCities" :key="city" @click="selectDeparture(city)" class="px-4 py-2 hover:bg-secondary hover:text-white cursor-pointer">
-                    {{ city }}
-                  </div>
-                </div>
-              </div>
-              <div v-if="errors.departureAddress" class="text-error text-sm mt-1">{{ errors.departureAddress }}</div>
-            </div>
-
-            <div>
-              <label class="block lg:text-base text-sm font-semibold text-black mb-2">
-                Adresse d'arrivée <span class="text-error">*</span>
-              </label>
-              <div class="relative">
-                <div 
-                  @click="toggleArrivalDropdown" 
-                  class="cursor-pointer w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-secondary transition-all duration-200"
-                >
-                  {{ projectData.arrivalAddress || 'Sélectionnez une ville' }}
-                </div>
-                <div v-if="isArrivalDropdownOpen" class="absolute z-10 w-full bg-white border border-gray-300 rounded-xl mt-1 max-h-60 overflow-y-auto">
-                  <input
-                    v-model="searchArrival"
-                    type="text"
-                    placeholder="Rechercher une ville..."
-                    class="w-full px-4 py-2 border-b border-gray-300 focus:outline-none"
-                  />
-                  <div v-for="city in filteredArrivalCities" :key="city" @click="selectArrival(city)" class="px-4 py-2 hover:bg-secondary hover:text-white cursor-pointer">
-                    {{ city }}
-                  </div>
-                </div>
-              </div>
-              <div v-if="errors.arrivalAddress" class="text-error text-sm mt-1">{{ errors.arrivalAddress }}</div>
-            </div>
-
-            <div class="flex space-x-4">
-              <div class="flex flex-col w-full">
-                <label class="block lg:text-base text-sm font-semibold text-black mb-2">
-                  Date de départ <span class="text-error">*</span>
-                </label>
-                <div class="relative">
-                  <input
-                    v-model="projectData.departureDate"
-                    type="date"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-secondary transition-all duration-200"
-                    :class="{ 'border-error': errors.departureDate }"
-                  />
-                  <div v-if="errors.departureDate" class="text-error text-sm mt-1">{{ errors.departureDate }}</div>
-                </div>
-              </div>
-
-              <div class="flex flex-col w-full">
-                <label class="block lg:text-base text-sm font-semibold text-black mb-2">
-                  Heure de départ <span class="text-error">*</span>
-                </label>
-                <div class="relative">
-                  <input
-                    v-model="projectData.departureTime"
-                    type="time"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-secondary transition-all duration-200"
-                    :class="{ 'border-error': errors.departureTime }"
-                  />
-                  <div v-if="errors.departureTime" class="text-error text-sm mt-1">{{ errors.departureTime }}</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <label class="block lg:text-base text-sm font-semibold text-black mb-2">
-                Nombre de passagers <span class="text-error">*</span>
-              </label>
-              <div class="flex items-center">
-                <button type="button" @click="decrementPassengers" class="px-2 py-1 bg-secondary text-white rounded-l-lg">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M4 10h12v2H4z" />
-                  </svg>
-                </button>
-                <div class="px-4 py-2 border border-gray-300 rounded-lg text-center text-secondary font-medium">
-                  {{ projectData.passengerCount }}
-                </div>
-                <button type="button" @click="incrementPassengers" class="px-2 py-1 bg-secondary text-white rounded-r-lg">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 4v12m-4-4h8" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div v-if="errors.passengerCount" class="text-error text-sm mt-1">{{ errors.passengerCount }}</div>
-
-            <button
-              type="submit"
-              :disabled="isLoading"
-              class="w-full bg-primary text-white py-3 rounded-xl font-medium hover:bg-primary-800 transition-all duration-200 disabled:opacity-50"
+          <form @submit.prevent="publishProject" class="bg-[#F0EFEF] px-6 py-6 space-y-4">
+            <!-- Adresse de départ -->
+            <Motion
+              v-for="(field, index) in ['departureAddress', 'arrivalAddress']"
+              :key="field"
+              :initial="{ opacity: 0, y: 20 }"
+              :animate="{ opacity: 1, y: 0 }"
+              :transition="{ delay: index * 0.1, duration: 0.3 }"
             >
-              <span v-if="!isLoading">Publier le projet</span>
-              <span v-else class="flex items-center justify-center">
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Publication en cours...
-              </span>
-            </button>
+              <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Adresse {{ field === 'departureAddress' ? 'de départ' : 'd\'arrivée' }}</label>
+                <div class="relative">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                  </svg>
+                  <select v-model="projectData[field]" class="w-full p-3 pl-10 rounded-md border border-gray-300 outline-none bg-white">
+                    <option disabled value="">Sélectionner une ville</option>
+                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                  </select>
+                </div>
+              </div>
+            </Motion>
+
+            <!-- Date et Heure -->
+            <div class="flex space-x-3">
+              <Motion
+                v-for="(label, index) in ['Date de départ', 'Heure de départ']"
+                :key="label"
+                :initial="{ opacity: 0, y: 20 }"
+                :animate="{ opacity: 1, y: 0 }"
+                :transition="{ delay: index * 0.1 + 0.2, duration: 0.3 }"
+                class="flex-1"
+              >
+                <label class="block text-sm font-medium text-gray-700 mb-1">{{ label }}</label>
+                <div class="relative">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm.75 4a.75.75 0 00-1.5 0v4.25c0 .414.336.75.75.75H12a.75.75 0 000-1.5h-1.25V6z" />
+                  </svg>
+                  <input v-model="projectData[label === 'Date de départ' ? 'departureDate' : 'departureTime']" type="date" class="w-full p-3 pl-10 rounded-md border border-gray-300 outline-none bg-white" />
+                </div>
+              </Motion>
+            </div>
+
+            <!-- Nombre de passagers -->
+            <Motion
+              :initial="{ opacity: 0, y: 20 }"
+              :animate="{ opacity: 1, y: 0 }"
+              :transition="{ duration: 0.3 }"
+              class="flex items-center justify-between"
+            >
+              <label class="block text-sm font-medium text-gray-700">Nombre de passagers</label>
+              <div class="flex items-center">
+                <button type="button" @click="decrementPassengers" class="px-3 py-1 bg-secondary-500 hover:bg-secondary text-white rounded-l-md transition duration-200">−</button>
+                <div class="px-4 py-2 border border-gray-300 outline-none bg-white text-center">{{ projectData.passengerCount }}</div>
+                <button type="button" @click="incrementPassengers" class="px-3 py-1 bg-secondary-500 hover:bg-secondary text-white rounded-r-md transition duration-200">+</button>
+              </div>
+            </Motion>
+
+            <!-- Bouton de soumission -->
+            <Motion
+              :initial="{ opacity: 0, y: 20 }"
+              :animate="{ opacity: 1, y: 0 }"
+              transition="{ duration: 0.3 }"
+            >
+              <button
+                type="submit"
+                :disabled="isLoading"
+                class="w-full bg-secondary-500 text-white py-3 items-center justify-center rounded-md font-bold hover:bg-secondary transition-all duration-200 disabled:opacity-50"
+              >
+                <span v-if="!isLoading">PUBLIER</span>
+                <span v-else class="flex items-center justify-center">
+                  <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Publication en cours...
+                </span>
+              </button>
+            </Motion>
           </form>
+        </Motion>
+
+        <!-- Liste des trajets -->
+        <div class="w-full lg:w-1/2 text-white">
+          <h3 class="text-2xl font-semibold mb-4 text-center">Derniers trajets publiés</h3>
+          <div class="space-y-4">
+            <Motion
+              v-for="(trip, index) in latestTrips"
+              :key="trip.id"
+              :initial="{ opacity: 0, y: 30 }"
+              :animate="{ opacity: 1, y: 0 }"
+              :transition="{ delay: index * 0.9, duration: 0.9 }"
+              class="bg-white/80 text-black p-4 rounded-lg flex justify-between items-center"
+            >
+              <span>{{ trip.departure }} - {{ trip.arrival }}</span>
+              <span class="text-secondary font-bold">{{ trip.places }} Places / {{ trip.published }} publiées</span>
+              <span class="text-sm">{{ trip.date }}</span>
+              <button class="text-sm flex p-1 pt-2 rounded-lg hover:bg-gray-200 transition duration-200">Detail</button>
+            </Motion>
+            <button class="hover:font-bold hover:delay-100">Voir Plus</button>
+          </div>
         </div>
+
       </div>
     </main>
+
+    <section class="bg-primary py-10 mt-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center text-white">
+            <h3 class="text-4xl font-bold mb-2">Rejoignez 200</h3>
+            <p class="text-lg">autres conducteurs certifiés sur ShareWuma</p>
+          </div>
+          <div class="text-center text-white">
+            <h3 class="text-4xl font-bold mb-2">Plus de 1000</h3>
+            <p class="text-lg">membres inscrits à travers le notre solution</p>
+          </div>
+          <div class="text-center text-white">
+            <h3 class="text-4xl font-bold mb-2">Plus de 40 trajets</h3>
+            <p class="text-lg">partagés chaque jours</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-primary -500 py-12">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-center space-x-8">
+
+          <!-- Bouton précédent -->
+          <button @click="showPrevTestimonial" class="bg-gray-800 text-white h-12 w-12 rounded-full hover:bg-gray-700 flex items-center justify-center transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <!-- Témoignage animé -->
+          <transition name="fade-slide" mode="out-in">
+            <div :key="currentTestimonial" class="bg-white text-primary p-6 rounded-lg shadow-md max-w-xl w-full text-center">
+              <p class="text-lg font-semibold mb-4">
+                "{{ testimonials[currentTestimonial].quote }}"
+              </p>
+              <p class="text-right font-bold">{{ testimonials[currentTestimonial].author }}</p>
+            </div>
+          </transition>
+
+          <!-- Bouton suivant -->
+          <button @click="showNextTestimonial" class="bg-gray-800 text-white h-12 w-12 rounded-full hover:bg-gray-700 flex items-center justify-center transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
   </div>
+  <Footer/>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import Header from "@public/components/header.vue";
+import Footer from './components/footer.vue';
+import { Motion } from '@motionone/vue'
+
 
 const projectData = ref({
   departureAddress: '',
@@ -157,82 +193,20 @@ const projectData = ref({
   passengerCount: 1,
 });
 
-const errors = ref({
-  departureAddress: '',
-  arrivalAddress: '',
-  departureDate: '',
-  departureTime: '',
-  passengerCount: '',
-});
-
 const isLoading = ref(false);
-const isDepartureDropdownOpen = ref(false);
-const isArrivalDropdownOpen = ref(false);
-const searchDeparture = ref('');
-const searchArrival = ref('');
+const cities = ['Yaoundé', 'Douala', 'Bafoussam', 'Garoua', 'Maroua', 'Bertoua', 'Ngaoundéré'];
 
-const cities = [
-  // Adamaoua
-  'Ngaoundéré', 'Tibati', 'Meiganga', 'Tignère', 'Banyo',
-  
-  // Centre
-  'Yaoundé', 'Mbalmayo', 'Bafia', 'Akonolinga', 'Obala', 
-  'Monatélé', 'Nanga-Eboko', 'Eséka', 'Ngoumou',
-  
-  // Est
-  'Bertoua', 'Batouri', 'Abong-Mbang', 'Yokadouma', 
-  'Garoua-Boulaï', 'Dimako', 'Lomié',
-  
-  // Extrême-Nord
-  'Maroua', 'Kousséri', 'Mokolo', 'Yagoua', 'Mora',
-  'Kaélé', 'Mindif', 'Guidiguis',
-  
-  // Littoral
-  'Douala', 'Edéa', 'Nkongsamba', 'Loum', 'Manjo',
-  'Yabassi', 'Dibombari', 'Mbanga',
-  
-  // Nord
-  'Garoua', 'Guider', 'Pitoa', 'Figuil', 'Lagdo',
-  'Rey Bouba', 'Tcholliré',
-  
-  // Nord-Ouest
-  'Bamenda', 'Wum', 'Kumbo', 'Ndop', 'Nkambe',
-  'Mbengwi', 'Bali',
-  
-  // Ouest
-  'Bafoussam', 'Dschang', 'Foumban', 'Mbouda', 'Bangangté',
-  'Bafang', 'Baham', 'Bandjoun',
-  
-  // Sud
-  'Ebolowa', 'Kribi', 'Sangmélima', 'Ambam', 'Mvangan',
-  'Évodoula', 'Lolodorf',
-  
-  // Sud-Ouest
-  'Buéa', 'Limbe', 'Kumba', 'Mamfé', 'Tiko',
-  'Mundemba', 'Ekondo-Titi', 'Idenau'
-]; // Liste des villes
+const latestTrips = ref([
+  { id: 1, departure: 'Yaoundé', arrival: 'Douala', places: 5, published: 9, date: 'Il y a 8 jours' },
+  { id: 2, departure: 'Douala', arrival: 'Bafoussam', places: 3, published: 6, date: 'Il y a 3 jours' },
+  { id: 3, departure: 'Maroua', arrival: 'Garoua', places: 4, published: 7, date: 'Hier' }
+]);
 
-const toggleDepartureDropdown = () => {
-  isDepartureDropdownOpen.value = !isDepartureDropdownOpen.value;
-  isArrivalDropdownOpen.value = false; // Fermer le dropdown d'arrivée si ouvert
-};
-
-const toggleArrivalDropdown = () => {
-  isArrivalDropdownOpen.value = !isArrivalDropdownOpen.value;
-  isDepartureDropdownOpen.value = false; // Fermer le dropdown de départ si ouvert
-};
-
-const selectDeparture = (city) => {
-  projectData.value.departureAddress = city;
-  isDepartureDropdownOpen.value = false;
-  validateDeparture();
-};
-
-const selectArrival = (city) => {
-  projectData.value.arrivalAddress = city;
-  isArrivalDropdownOpen.value = false;
-  validateArrival();
-};
+const infoList = [
+  { title: 'Sécurité', description: 'Assurez-vous toujours de vérifier l’identité de vos passagers.' },
+  { title: 'Économie', description: 'Le covoiturage peut réduire vos frais de transport.' },
+  { title: 'Écologie', description: 'Partagez vos trajets pour réduire votre empreinte carbone.' }
+];
 
 const incrementPassengers = () => {
   projectData.value.passengerCount++;
@@ -244,75 +218,54 @@ const decrementPassengers = () => {
   }
 };
 
-const validateDeparture = () => {
-  errors.value.departureAddress = projectData.value.departureAddress ? '' : 'L\'adresse de départ est requise';
-};
-
-const validateArrival = () => {
-  errors.value.arrivalAddress = projectData.value.arrivalAddress ? '' : 'L\'adresse d\'arrivée est requise';
-};
-
 const publishProject = async () => {
-  // Réinitialiser les erreurs
-  errors.value = {
-    departureAddress: '',
-    arrivalAddress: '',
-    departureDate: '',
-    departureTime: '',
-    passengerCount: '',
-  };
-
-  // Validation
-  validateDeparture();
-  validateArrival();
-
-  if (!projectData.value.departureAddress) {
-    errors.value.departureAddress = 'L\'adresse de départ est requise';
-  }
-  if (!projectData.value.arrivalAddress) {
-    errors.value.arrivalAddress = 'L\'adresse d\'arrivée est requise';
-  }
-  if (!projectData.value.departureDate) {
-    errors.value.departureDate = 'La date de départ est requise';
-  }
-  if (!projectData.value.departureTime) {
-    errors.value.departureTime = 'L\'heure de départ est requise';
-  }
-  if (projectData.value.passengerCount < 1) {
-    errors.value.passengerCount = 'Le nombre de passagers doit être au moins 1';
-  }
-
-  // Si des erreurs existent, arrêter la soumission
-  if (Object.values(errors.value).some(error => error)) {
-    return;
-  }
-
   isLoading.value = true;
-
-  try {
-    // Simuler un appel API
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    alert('Projet publié avec succès!');
-  } catch (error) {
-    alert('Une erreur est survenue lors de la publication du projet.');
-  } finally {
-    isLoading.value = false;
-  }
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  alert('Trajet publié avec succès !');
+  isLoading.value = false;
 };
 
-// Calculer les villes filtrées pour le départ
-const filteredDepartureCities = computed(() => {
-  return cities.filter(city => city.toLowerCase().includes(searchDeparture.value.toLowerCase()));
-});
+// Element de temoignange des uses
 
-// Calculer les villes filtrées pour l'arrivée
-const filteredArrivalCities = computed(() => {
-  return cities.filter(city => city.toLowerCase().includes(searchArrival.value.toLowerCase()));
-});
+// Témoignages
+const testimonials = ref([
+  {
+    quote: "Ce service a changé ma façon de voyager ! Très pratique et économique.",
+    author: "— Yasmine"
+  },
+  {
+    quote: "Interface simple, publication rapide, et beaucoup de trajets disponibles.",
+    author: "— Idriss"
+  },
+  {
+    quote: "J’ai pu faire Ngaoundéré - Douala à moitié prix, c'est super cool :) !",
+    author: "— Patrick"
+  }
+])
+
+const currentTestimonial = ref(0)
+let intervalId
+
+const showNextTestimonial = () => {
+  currentTestimonial.value = (currentTestimonial.value + 1) % testimonials.value.length
+}
+
+const showPrevTestimonial = () => {
+  currentTestimonial.value = (currentTestimonial.value - 1 + testimonials.value.length) % testimonials.value.length
+}
+
+onMounted(() => {
+  intervalId = setInterval(showNextTestimonial, 5000)
+})
+
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
+
+
 </script>
 
 <style scoped>
-/* Styles personnalisés si nécessaire */
 .text-error {
   color: red;
 }

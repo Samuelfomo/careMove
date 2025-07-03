@@ -5,6 +5,8 @@ import Parrain from "@public/sponsorshipForm.vue";
 import Register from "@public/registrationForm.vue";
 import Register2 from "@public/QuickRegistration.vue";
 import ProposeTrip from '../../public/proposeTrip.vue';
+import searchTrip from '../../public/searchTrip.vue';
+import Profil from '../../public/profil.vue';
 const routes = [
 
   {
@@ -36,6 +38,16 @@ const routes = [
     path: '/proposeTrip',
     name:'proposeTrip',
     component: ProposeTrip
+  },
+  {
+    path: '/searchTrip',
+    name:'searchTrip',
+    component: searchTrip
+  },
+  {
+    path: '/profil',
+    name:'profil',
+    component: Profil
   }
 ];
 
