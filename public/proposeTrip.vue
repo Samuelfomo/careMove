@@ -103,22 +103,36 @@
         <div class="w-full lg:w-1/2 text-white">
           <h3 class="text-2xl font-semibold mb-4 text-center">Derniers trajets publiés</h3>
           <div class="space-y-4">
-            <Motion
-              v-for="(trip, index) in latestTrips"
-              :key="trip.id"
-              :initial="{ opacity: 0, y: 30 }"
-              :animate="{ opacity: 1, y: 0 }"
-              :transition="{ delay: index * 0.9, duration: 0.9 }"
-              class="bg-white/80 text-black p-4 rounded-lg flex justify-between items-center"
-            >
-              <span>{{ trip.departure }} - {{ trip.arrival }}</span>
-              <span class="text-secondary font-bold">{{ trip.places }} Places / {{ trip.published }} publiées</span>
-              <span class="text-sm">{{ trip.date }}</span>
-              <button class="text-sm flex p-1 pt-2 rounded-lg hover:bg-gray-200 transition duration-200">Detail</button>
-            </Motion>
-            <button class="hover:font-bold hover:delay-100">Voir Plus</button>
+
+            <!-- Squelettes de chargement (shimmer) -->
+            <template v-if="isLoadingTrips">
+              <div v-for="i in 3" :key="i" class="animate-pulse bg-white/60 p-4 rounded-lg flex justify-between items-center text-black">
+                <div class="w-32 h-4 bg-gray-300 rounded"></div>
+                <div class="w-24 h-4 bg-gray-300 rounded"></div>
+                <div class="w-20 h-4 bg-gray-300 rounded"></div>
+                <div class="w-16 h-6 bg-gray-300 rounded"></div>
+              </div>
+            </template>
+
+            <!-- Liste réelle des trajets -->
+            <template v-else>
+              <div
+                v-for="(trip, index) in latestTrips"
+                :key="trip.id"
+                class="bg-white/80 text-black p-4 rounded-lg flex justify-between items-center transition hover:shadow-md"
+              >
+                <span>{{ trip.departure }} - {{ trip.arrival }}</span>
+                <span class="text-secondary font-bold">{{ trip.places }} Places / {{ trip.published }} publiées</span>
+                <span class="text-sm">{{ trip.date }}</span>
+                <button class="text-sm flex p-1 pt-2 rounded-lg hover:bg-gray-200 transition duration-200">Détail</button>
+              </div>
+
+              <button class="hover:font-bold hover:delay-100 mt-2">Voir Plus</button>
+            </template>
+
           </div>
         </div>
+
 
       </div>
     </main>
@@ -260,6 +274,14 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(intervalId)
+})
+
+const isLoadingTrips = ref(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    isLoadingTrips.value = false
+  }, 5000)
 })
 
 
