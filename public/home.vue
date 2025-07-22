@@ -303,7 +303,7 @@ const selectProposition = (proposition) => {
       <!-- Background Effects -->
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-black/20"></div>
-        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
+<!--        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">-->
 
         <!-- Floating Elements -->
         <div class="absolute top-20 left-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-pulse"></div>
@@ -385,13 +385,13 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Propositions de voyage (Scroll horizontal) -->
-    <section class="py-20 bg-gradient-to-b from-gray-200 to-white">
+    <section class="py-20 bg-gradient-to-t from-secondary-300 via-white to-secondary-300">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-4xl font-montserrat font-bold text-primary-900 mb-4">
+          <h2 class="text-3xl md:text-5xl font-primary font-bold text-gray-600 mb-6 leading-relaxed">
             Trajets disponibles actuellement
           </h2>
-          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p class="text-xl text-gray-500 max-w-2xl mx-auto">
             Découvrez les prochains départs et réservez votre place en quelques clics
           </p>
         </div>
@@ -400,7 +400,7 @@ const selectProposition = (proposition) => {
         <div class="flex justify-center space-x-4 mb-8">
           <button
             @click="handleManualScroll(-1, true)"
-            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-gray-200"
+            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
           >
             <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -408,7 +408,7 @@ const selectProposition = (proposition) => {
           </button>
           <button
             @click="handleManualScroll(1, true)"
-            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-gray-200"
+            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
           >
             <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
@@ -427,7 +427,7 @@ const selectProposition = (proposition) => {
               v-for="trip in travelPropositions"
               :key="trip.id"
               @click="selectProposition(trip)"
-              class="flex-none w-80 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-100 hover:border-secondary-200 transform hover:scale-105"
+              class="flex-none w-70 bg-white rounded-2xl shadow-xl border border-primary-100 transition-all duration-500 cursor-pointer transform hover:scale-105"
             >
               <div class="p-6">
                 <!-- Header -->
@@ -435,26 +435,26 @@ const selectProposition = (proposition) => {
                   <div class="flex items-center space-x-3">
                     <img :src="trip.image" :alt="trip.driver" class="w-12 h-12 rounded-full object-cover">
                     <div>
-                      <h4 class="font-semibold text-gray-900">{{ trip.driver }}</h4>
+                      <h4 class="font-montserrat text-primary text-sm">{{ trip.driver }}</h4>
                       <div class="flex items-center">
                         <div class="flex text-yellow-400 text-sm">
                           <span v-for="i in 5" :key="i" :class="i <= trip.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
                         </div>
-                        <span class="text-sm text-gray-600 ml-1">({{ trip.rating }})</span>
+                        <span class="text-xs text-gray-600 ml-1">({{ trip.rating }})</span>
                       </div>
                     </div>
                   </div>
                   <div class="text-right">
-                    <div class="text-2xl font-bold text-secondary-600">{{ trip.price }}</div>
-                    <div class="text-sm text-gray-500">par personne</div>
+                    <div class="text-xl font-bold text-secondary">{{ trip.price }}</div>
+                    <div class="text-xs text-gray-500">par personne</div>
                   </div>
                 </div>
 
                 <!-- Route -->
                 <div class="flex items-center space-x-4 mb-4">
                   <div class="flex-1">
-                    <div class="text-lg font-semibold text-gray-900">{{ trip.from }}</div>
-                    <div class="text-sm text-gray-500">Départ</div>
+                    <div class="text-lg font-semibold text-primary">{{ trip.from }}</div>
+                    <div class="text-xs text-gray-500">Départ</div>
                   </div>
                   <div class="flex-none">
                     <svg class="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
@@ -462,13 +462,13 @@ const selectProposition = (proposition) => {
                     </svg>
                   </div>
                   <div class="flex-1 text-right">
-                    <div class="text-lg font-semibold text-gray-900">{{ trip.to }}</div>
-                    <div class="text-sm text-gray-500">Arrivée</div>
+                    <div class="text-lg font-semibold text-primary">{{ trip.to }}</div>
+                    <div class="text-xs text-gray-500">Arrivée</div>
                   </div>
                 </div>
 
                 <!-- Date et places -->
-                <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+                <div class="flex items-center justify-between text-sm text-secondary-accent-600 mb-4">
                   <span>{{ trip.date }} à {{ trip.time }}</span>
                   <span class="bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full">
                     {{ trip.seats }} place{{ trip.seats > 1 ? 's' : '' }}
@@ -487,7 +487,7 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Section statistiques -->
-    <section class="stats-section py-16 bg-primary-900 text-white">
+    <section class="stats-section py-16 bg-primary text-white">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div class="stat-item text-center">
@@ -511,10 +511,10 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Témoignages (Scroll vertical) -->
-    <section class="py-20 bg-white">
+    <section class="py-10 text-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-4xl font-montserrat font-bold text-primary-900 mb-4">
+          <h2 class="text-4xl font-bold font-secondary text-primary mb-4 leading-relaxed">
             Ce que disent nos utilisateurs
           </h2>
           <p class="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -543,8 +543,8 @@ const selectProposition = (proposition) => {
         </div>
 
         <!-- Container de scroll vertical -->
-        <div class="max-w-4xl mx-auto">
-          <div class="h-96 overflow-hidden">
+        <div class="max-w-4xl mx-auto border-t border-gray-300">
+          <div class="h-96 overflow-hidden max-w-3xl flex justify-center items-center">
             <div
               ref="verticalScrollRef"
               class="space-y-6 overflow-y-auto scrollbar-hide"
