@@ -1,6 +1,6 @@
 <template>
   <header class="fixed w-full z-50 flex flex-col">
-    <div class="bg-white px-5 py-10 lg:px-14 flex justify-between items-center w-full flex-row border-b shadow-sm h-16">
+    <div class="bg-white px-5 py-10 lg:px-14 flex justify-between items-center w-full flex-row shadow-sm h-16">
       <div class="relative lg:flex">
         <div class="absolute cursor-pointer flex z-50" @click="router.push('/')">
           <img :src="logo" alt="Logo" class="object-cover">
@@ -10,22 +10,26 @@
       </div>
       <div class="lg:flex 2xl:grid justify-between items-center space-x-4 grid-cols-2 hidden w-full">
         <div class="flex items-center justify-center space-x-10 text-primary text-base">
-          <span class="cursor-pointer">{{ $t('nav.home') }}</span>
+<!--          <span class="cursor-pointer">{{ $t('nav.home') }}</span>-->
           <span class="cursor-pointer">{{ $t('nav.reservation') }}</span>
         </div>
         <div class="flex items-center justify-end space-x-10">
-          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md pl-4">
-            <IconSearch stroke="{2}" />
-            <input
-              type="text"
-              :placeholder="$t('nav.search')"
-              class="bg-white text-primary p-1 rounded-md focus:outline-none focus:border-none max-w-[8rem] placeholder:text-primary-900"
-            />
-          </div>
+<!--          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md pl-4" @click="router.push('/searchTrip')">-->
+<!--            <IconSearch stroke="{2}" />-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              :placeholder="$t('nav.search')"-->
+<!--              class="bg-white text-primary p-1 rounded-md focus:outline-none focus:border-none max-w-[8rem] placeholder:text-primary-900"-->
+<!--            />-->
+<!--          </div>-->
 
+          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 pl-4 pr-8 cursor-pointer">
+            <IconSearch stroke="{2}" />
+            <span class="text-nowrap" @click="router.push('/searchTrip')">{{ $t('nav.search') }}</span>
+          </div>
           <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 px-4 cursor-pointer">
             <IconCirclePlus stroke="{2}" />
-            <span class="text-nowrap">{{ $t('nav.publishTrip') }}</span>
+            <span class="text-nowrap" @click="router.push('/proposeTrip')">{{ $t('nav.publishTrip') }}</span>
           </div>
 
           <!-- Sélecteur de langue -->
@@ -88,7 +92,7 @@
               </div>
 
               <div class="py-2">
-                <a href="#" class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 transition-colors">
+                <a @click="router.push('/profile')" class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 transition-colors">
                   <IconUser :stroke="2" class="w-4 h-4" />
                   <span class="text-sm">{{ $t('user.profile') }}</span>
                 </a>

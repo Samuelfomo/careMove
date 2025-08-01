@@ -1,13 +1,5 @@
 <template>
   <div class="min-h-screen flex flex-col mx-auto">
-<!--     Header-->
-<!--        <header class="p-6">-->
-<!--          <div class="flex items-center justify-center">-->
-<!--            <div class="text-3xl font-bold text-primary">-->
-<!--              Share<span class="text-secondary">Wuma</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </header>-->
     <Header />
 
     <!-- Main Content -->

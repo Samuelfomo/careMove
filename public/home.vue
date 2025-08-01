@@ -299,11 +299,11 @@ const selectProposition = (proposition) => {
     <Header />
 
     <!-- Hero Section -->
-    <section ref="heroRef" class="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 overflow-hidden pt-20">
+    <section ref="heroRef" class="relative bg-primary-700 from-primary-900 via-primary-800 to-primary-700 overflow-hidden pt-20">
       <!-- Background Effects -->
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-black/20"></div>
-<!--        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">-->
+        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
 
         <!-- Floating Elements -->
         <div class="absolute top-20 left-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-pulse"></div>
@@ -385,7 +385,7 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Propositions de voyage (Scroll horizontal) -->
-    <section class="py-20 bg-gradient-to-t from-secondary-300 via-white to-secondary-300">
+    <section class="py-10">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
           <h2 class="text-3xl md:text-5xl font-primary font-bold text-gray-600 mb-6 leading-relaxed">
@@ -664,7 +664,7 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Section Trajets Populaires -->
-    <section class="popular-routes py-20 bg-gradient-to-tr from-primary-accent to-gray-50">
+    <section class="popular-routes py-10 bg-gradient-to-b from-white to-primary-800">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-4xl font-montserrat font-bold text-gray-700 uppercase mb-4">
@@ -713,7 +713,7 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Section Avantages -->
-    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section class="py-10 bg-gradient-to-b from-primary-500 to-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-4xl font-montserrat font-bold text-primary-900 mb-4">
@@ -774,7 +774,7 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- Section CTA -->
-    <section class="cta-section py-20 bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-900 relative overflow-hidden">
+    <section class="cta-section py-10 bg-gradient-to-r from-primary-900 via-primary-800 to-secondary-900 relative overflow-hidden">
       <!-- Background Effects -->
       <div class="absolute inset-0">
         <div class="absolute top-10 left-10 w-32 h-32 bg-primary-accent/20 rounded-full blur-2xl animate-pulse"></div>

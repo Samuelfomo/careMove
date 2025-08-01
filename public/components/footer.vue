@@ -11,7 +11,7 @@
           {{ $t('footer.description') }}
         </p>
         <button type="button"
-                class="btn btn-secondary mt-0 mb-0"
+                class="btn btn-secondary-accent mt-0 mb-0"
                 @click="contact"
         >
           {{ $t('footer.startTripToday') }}

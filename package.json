@@ -9,6 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@motionone/vue": "^10.16.4",
     "@tabler/icons-vue": "^3.33.0",
     "axios": "^1.7.9",
     "core-js": "^3.39.0",
@@ -17,8 +18,8 @@
     "gsap": "^3.13.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.13",
-    "vue-i18n": "^9.8.0",
     "vue-axios": "^3.5.2",
+    "vue-i18n": "^9.8.0",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
