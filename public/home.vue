@@ -14,7 +14,6 @@ const heroRef = ref(null)
 const searchFormRef = ref(null)
 const propositionsRef = ref(null)
 const verticalScrollRef = ref(null)
-const testimonialsRef = ref(null)
 
 // Données pour les propositions de voyage
 const travelPropositions = ref([
@@ -77,50 +76,6 @@ const travelPropositions = ref([
     seats: 3,
     rating: 4.6,
     image: '../src/assets/images/bg4.jpg'
-  }
-])
-
-// Données pour les témoignages
-const testimonials = ref([
-  {
-    id: 1,
-    name: 'Elise Fotso',
-    role: 'Étudiante',
-    message: 'ShareWuma m\'a permis d\'économiser énormément sur mes trajets université-maison. Interface intuitive et conducteurs fiables !',
-    rating: 5,
-    image: '/api/placeholder/50/50'
-  },
-  {
-    id: 2,
-    name: 'Michel Ngono',
-    role: 'Chef d\'entreprise',
-    message: 'Excellent service ! Je propose régulièrement mes trajets et l\'ambiance est toujours conviviale.',
-    rating: 5,
-    image: '/api/placeholder/50/50'
-  },
-  {
-    id: 3,
-    name: 'Fatima Alhadji',
-    role: 'Fonctionnaire',
-    message: 'Pratique pour les trajets domicile-travail. L\'application est fluide et les réservations sont simples.',
-    rating: 4,
-    image: '/api/placeholder/50/50'
-  },
-  {
-    id: 4,
-    name: 'Gabriel Tchoua',
-    role: 'Commerçant',
-    message: 'Grâce à ShareWuma, mes déplacements professionnels sont devenus plus économiques et plus agréables.',
-    rating: 5,
-    image: '/api/placeholder/50/50'
-  },
-  {
-    id: 5,
-    name: 'Aminata Diallo',
-    role: 'Infirmière',
-    message: 'Service fiable pour mes trajets de nuit. La sécurité est au rendez-vous et les prix sont abordables.',
-    rating: 4,
-    image: '/api/placeholder/50/50'
   }
 ])
 
@@ -228,18 +183,24 @@ const initAnimations = () => {
     }
   })
 }
-
 const initHorizontalScroll = () => {
   const container = propositionsRef.value
   if (!container) return
 
-  // Scroll automatique horizontal
+  // Dupliquer le contenu pour créer un effet de boucle infinie
+  const originalContent = container.innerHTML
+  container.innerHTML = originalContent + originalContent
+
+  // Scroll automatique circulaire
   horizontalScrollTween = gsap.to(container, {
-    x: () => -(container.scrollWidth - container.clientWidth),
-    duration: 10,
+    x: () => -(container.scrollWidth / 2), // Diviser par 2 car on a dupliqué le contenu
+    duration: 40, // Durée plus lente pour un meilleur effet
     ease: 'none',
     repeat: -1,
-    yoyo: true
+    onRepeat: () => {
+      // Reset position pour créer l'effet circulaire
+      gsap.set(container, { x: 0 })
+    }
   })
 
   // Pause au survol
@@ -271,8 +232,28 @@ const handleManualScroll = (direction, isHorizontal = true) => {
 
   if (isHorizontal) {
     horizontalScrollTween.pause()
-    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' })
-    setTimeout(() => horizontalScrollTween.resume(), 2000)
+
+    // Calculer la nouvelle position
+    const currentX = gsap.getProperty(container, "x")
+    const newX = currentX + (direction * -scrollAmount)
+    const maxScroll = -(container.scrollWidth / 2)
+
+    // Gérer le wrap around pour l'effet circulaire
+    let targetX = newX
+    if (newX < maxScroll) {
+      targetX = 0
+    } else if (newX > 0) {
+      targetX = maxScroll
+    }
+
+    gsap.to(container, {
+      x: targetX,
+      duration: 0.5,
+      ease: "power2.out",
+      onComplete: () => {
+        setTimeout(() => horizontalScrollTween.resume(), 1500)
+      }
+    })
   } else {
     verticalScrollTween.pause()
     container.scrollBy({ top: direction * scrollAmount, behavior: 'smooth' })
@@ -417,17 +398,16 @@ const selectProposition = (proposition) => {
         </div>
 
         <!-- Container de scroll horizontal -->
-        <div class="relative overflow-hidden">
+        <div class="horizontal-scroll-container">
           <div
             ref="propositionsRef"
-            class="flex space-x-6 overflow-x-auto scrollbar-hide pb-4"
-            style="scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;"
+            class="horizontal-scroll-content space-x-6"
           >
             <div
               v-for="trip in travelPropositions"
               :key="trip.id"
               @click="selectProposition(trip)"
-              class="flex-none w-70 bg-white rounded-2xl shadow-xl border border-primary-100 transition-all duration-500 cursor-pointer transform hover:scale-105"
+              class="trip-card bg-white rounded-2xl shadow-xl border border-primary-100 transition-all duration-500 cursor-pointer transform hover:scale-105"
             >
               <div class="p-6">
                 <!-- Header -->
@@ -510,73 +490,6 @@ const selectProposition = (proposition) => {
       </div>
     </section>
 
-    <!-- Témoignages (Scroll vertical) -->
-    <section class="py-10 hidden text-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-          <h2 class="text-4xl font-bold font-secondary text-primary mb-4 leading-relaxed">
-            Ce que disent nos utilisateurs
-          </h2>
-          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Découvrez les témoignages de notre communauté
-          </p>
-        </div>
-
-        <!-- Contrôles de navigation verticale -->
-        <div class="flex justify-center space-x-4 mb-8">
-          <button
-            @click="handleManualScroll(-1, false)"
-            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-gray-200"
-          >
-            <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          <button
-            @click="handleManualScroll(1, false)"
-            class="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 border border-gray-200"
-          >
-            <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Container de scroll vertical -->
-        <div class="max-w-4xl mx-auto border-t border-gray-300">
-          <div class="h-96 overflow-hidden max-w-3xl flex justify-center items-center">
-            <div
-              ref="verticalScrollRef"
-              class="space-y-6 overflow-y-auto scrollbar-hide"
-              style="scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;"
-            >
-              <div
-                v-for="testimonial in testimonials"
-                :key="testimonial.id"
-                class="bg-gradient-to-r from-gray-50 to-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-              >
-                <div class="flex items-start space-x-6">
-                  <img :src="testimonial.image" :alt="testimonial.name" class="w-16 h-16 rounded-full object-cover flex-shrink-0">
-                  <div class="flex-1">
-                    <div class="flex items-center justify-between mb-4">
-                      <div>
-                        <h4 class="text-xl font-semibold text-gray-900">{{ testimonial.name }}</h4>
-                        <p class="text-gray-600">{{ testimonial.role }}</p>
-                      </div>
-                      <div class="flex text-yellow-400">
-                        <span v-for="i in 5" :key="i" :class="i <= testimonial.rating ? 'text-yellow-400' : 'text-gray-300'">★</span>
-                      </div>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed italic">"{{ testimonial.message }}"</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Section Services -->
     <section class="services-section py-10 bg-gradient-to-b from-primary-50 to-white">
       <div class="container mx-auto px-4">
@@ -589,7 +502,7 @@ const selectProposition = (proposition) => {
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 space-x-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-6 space-y-6 md:space-y-0 max-w-6xl mx-auto">
           <!-- Service Card 1 -->
           <div class="service-card group">
             <div class="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-secondary-200 transform hover:-translate-y-2">
@@ -877,5 +790,29 @@ const selectProposition = (proposition) => {
 /* Parallax effect for background elements */
 .parallax-element {
   will-change: transform;
+}
+.horizontal-scroll-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.horizontal-scroll-content {
+  display: inline-flex;
+  will-change: transform;
+}
+
+/* Assurer que les cartes restent visibles */
+.trip-card {
+  flex-shrink: 0;
+  width: 320px; /* Largeur fixe pour chaque carte */
+}
+
+/* Le reste du CSS reste identique */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 </style>

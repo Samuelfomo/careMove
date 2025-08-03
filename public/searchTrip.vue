@@ -1,345 +1,942 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-100 gradient-to-br from-[#E0F2FE] via-secondary-900 to-[#F0F0F0]">
+  <div class="min-h-screen bg-gray-50">
     <Header />
 
-    <!-- MAIN -->
-    <main class="flex-1 flex flex-col items-center justify-center px-4 pt-36 pb-12 bg-primary-100" style="background-image: url('@/assets/images/bg4.jpg')">
-      <!-- RECHERCHE DE TRAJET -->
-      <Motion
-        :initial="{ opacity: 0, y: 50 }"
-        :animate="{ opacity: 1, y: 0 }"
-        transition="{ duration: 0.5, ease: 'ease-out' }"
-        class="w-full max-w-6xl overflow-hidden"
-      >
-        <div class="text-primary font-bold px-6 py-6">
-          <h2 class="text-4xl font-bold text-center">Rechercher un trajet</h2>
+    <!-- Hero Section avec Search -->
+    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 pt-24 pb-12">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <!-- Titre -->
+          <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-white py-10">
+              Trouvez votre trajet idéal
+            </h1>
+            <p class="text-xl text-white/90">
+              Plus de {{ totalTrips }} trajets disponibles aujourd'hui
+            </p>
+          </div>
+
+          <!-- Formulaire de recherche -->
+          <div class="bg-white rounded-2xl shadow-2xl p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <!-- Départ -->
+              <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Départ</label>
+                <div class="relative">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="3" />
+                  </svg>
+                  <select
+                    v-model="searchFilters.departure"
+                    @change="filterTrips"
+                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
+                  >
+                    <option value="">Toutes les villes</option>
+                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Arrivée -->
+              <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Arrivée</label>
+                <div class="relative">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                  </svg>
+                  <select
+                    v-model="searchFilters.arrival"
+                    @change="filterTrips"
+                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
+                  >
+                    <option value="">Toutes les villes</option>
+                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Date -->
+              <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Date de départ</label>
+                <div class="relative">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                  </svg>
+                  <input
+                    v-model="searchFilters.date"
+                    @change="filterTrips"
+                    type="date"
+                    :min="today"
+                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              <!-- Passagers -->
+              <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Passagers</label>
+                <div class="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                  <button
+                    type="button"
+                    @click="decrementPassengers"
+                    :disabled="searchFilters.passengers <= 1"
+                    class="px-3 py-3 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <input
+                    v-model="searchFilters.passengers"
+                    type="number"
+                    min="1"
+                    readonly
+                    class="flex-1 py-3 text-center border-0 focus:ring-0 outline-none"
+                  />
+                  <button
+                    type="button"
+                    @click="incrementPassengers"
+                    class="px-3 py-3 bg-gray-100 hover:bg-gray-200 transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bouton de réinitialisation -->
+            <div class="mt-4 text-center">
+              <button
+                @click="resetFilters"
+                class="text-secondary-600 hover:text-secondary-700 font-medium underline"
+              >
+                Réinitialiser les filtres
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section des résultats -->
+    <section class="py-12">
+      <div class="container mx-auto px-4">
+        <!-- En-tête des résultats -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+              {{ totalTripsCount }} trajet{{ totalTripsCount > 1 ? 's' : '' }} trouvé{{ totalTripsCount > 1 ? 's' : '' }}
+            </h2>
+            <p class="text-gray-600">
+              <span v-if="hasActiveFilters">Résultats filtrés pour vos critères</span>
+              <span v-else>Affichage de {{ paginatedTrips.length }} trajets sur {{ totalTripsCount }}</span>
+            </p>
+          </div>
+
+          <!-- Tri -->
+          <div class="mt-4 md:mt-0">
+            <select
+              v-model="sortBy"
+              @change="sortTrips"
+              class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none"
+            >
+              <option value="time">Trier par heure</option>
+              <option value="price">Trier par prix</option>
+              <option value="places">Trier par places disponibles</option>
+            </select>
+          </div>
         </div>
 
-        <form @submit.prevent="searchTrip" class="bg-white min-h-44 p-5 flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 rounded-md shadow-lg">
-          <Motion
-            v-for="(field, index) in ['departureAddress', 'arrivalAddress', 'departureTime', 'passengerCount']"
-
-            class="flex-1"
-          >
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              {{ field === 'departureAddress' ? 'Adresse de départ' : field === 'arrivalAddress' ? 'Adresse d\'arrivée' : field === 'departureTime' ? 'Heure de départ' : 'Nombre de passagers' }}
-            </label>
-            <div class="relative" v-if="field !== 'passengerCount'">
-              <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-              </svg>
-              <input v-if="field === 'departureTime'" v-model="searchData[field]" type="time" class="w-full p-3 pl-10 rounded-md border border-secondary-500 outline-none bg-white text-gray-700" />
-              <select v-else v-model="searchData[field]" class="w-full p-3 pl-10 rounded-md border border-secondary-500 outline-none bg-white text-gray-700">
-                <option disabled value="">Sélectionner</option>
-                <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-              </select>
-            </div>
-            <div class="relative flex items-center" v-else>
-              <button type="button" @click="decrementPassengers" class="px-3 py-1 bg-secondary-500 hover:bg-secondary text-white rounded-l-md transition duration-200">−</button>
-              <input v-model="searchData[field]" type="number" min="1" class="w-full p-3 border border-secondary-500 rounded-lg outline-none bg-white text-gray-700 text-center" />
-              <button type="button" @click="incrementPassengers" class="px-3 py-1 bg-secondary-500 hover:bg-secondary text-white rounded-r-md transition duration-200">+</button>
-            </div>
-          </Motion>
-
-          <Motion :initial="{ opacity: 0, y: 10 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: 0.9 }">
-            <button
-              type="submit"
-              :disabled="isLoading"
-              class="bg-secondary-500 text-white mt-5 py-3 px-6 items-center justify-center rounded-md font-bold hover:bg-secondary transition-all duration-200 disabled:opacity-50"
-            >
-              <span v-if="!isLoading">RECHERCHER</span>
-              <span v-else class="flex items-center justify-center">
-                  <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Recherche en cours...
-                </span>
-            </button>
-          </Motion>
-        </form>
-      </Motion>
-    </main>
-
-    <!-- INFO SECTION -->
-    <Motion :initial="{ opacity: 0, y: 50 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: 0.9, delay: 0.9 }">
-      <h3 class="text-primary-800 md:text-4xl py-10 text-2xl  px-4  font-bold text-center">
-        Plus de 12 trajets viennent d'être publiés près de votre secteur
-      </h3>
-    </Motion>
-
-    <!-- SECTION TRAJETS -->
-    <section class="w-full flex flex-col md:flex-row px-4 pb-10 md:px-14 gap-6 md:gap-20 container justify-center items-center mx-auto">
-      <div class="flex justify-center p-2">
-<!--        <div class="rounded-xl transition-transform duration-300 hover:scale-105 delay-100 hover:shadow-xl">-->
-          <img :src="imgCarRed" alt="Covoiturage" class="max-w-xl h-full object-contain rounded-xl" />
-<!--        </div>-->
-      </div>
-
-      <div class="flex-1">
-        <div class="grid grid-cols-2 gap-6 mb-7">
-
-          <!-- Shimmers -->
-          <template v-if="isLoadingTrips">
-            <div v-for="n in 4" :key="n" class="bg-white p-2 rounded-lg shadow animate-pulse space-y-4">
+        <!-- Liste des trajets -->
+        <div class="space-y-4">
+          <!-- Loading skeleton -->
+          <template v-if="isLoading">
+            <div v-for="n in 5" :key="n" class="bg-white rounded-xl shadow-md p-6 animate-pulse">
               <div class="flex space-x-4">
-                <div class="bg-gray-300 h-24 w-24 rounded-lg"></div>
-                <div class="flex-1 space-y-2">
-                  <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+                <div class="flex-1 space-y-3">
+                  <div class="h-4 bg-gray-300 rounded w-1/3"></div>
                   <div class="h-4 bg-gray-200 rounded w-1/2"></div>
-                  <div class="flex gap-x-20">
-                    <div class="h-4 bg-gray-200 rounded w-1/3"></div>
-                    <div class="h-4 bg-gray-200 rounded-full w-10"></div>
-                  </div>
+                  <div class="h-4 bg-gray-200 rounded w-1/4"></div>
                 </div>
+                <div class="w-24 h-8 bg-gray-300 rounded"></div>
               </div>
             </div>
           </template>
 
-          <!-- Liste trajets -->
+          <!-- Aucun résultat -->
+          <div v-else-if="totalTripsCount === 0 && hasActiveFilters" class="text-center py-12">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">Aucun trajet trouvé</h3>
+            <p class="text-gray-500 mb-4">Aucun trajet ne correspond à vos critères de recherche</p>
+            <button
+              @click="resetFilters"
+              class="bg-secondary-500 text-white px-6 py-2 rounded-lg hover:bg-secondary-600 transition-colors"
+            >
+              Voir tous les trajets
+            </button>
+          </div>
+
+          <!-- Liste des trajets -->
           <Motion
             v-else
-            v-for="(trip, index) in latestTrips"
+            v-for="(trip, index) in paginatedTrips"
             :key="trip.id"
-            :initial="{ opacity: 0, y: 30 }"
+            :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ delay: index * 0.3, duration: 0.5 }"
-            class="bg-white shadow-lg p-4 rounded-lg hover:shadow-2xl transition-shadow duration-300"
+            :transition="{ delay: index * 0.1, duration: 0.3 }"
+            class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
           >
-            <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <div class="relative w-full sm:w-24 h-32 sm:h-24 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300">
-                <img :src="imgfont" alt="Photo du trajet" class="w-full h-full object-cover" />
-                <div class="absolute top-2 right-2 bg-white rounded-full px-2 py-1 text-sm font-bold text-gray-500">
-                  ♥ {{ trip.likes }}
-                </div>
-              </div>
-              <div class="flex-1">
-                <div class="flex flex-col space-y-1">
-                  <p class="font-bold text-sm text-gray-500">{{ trip.departure }} - {{ trip.arrival }}</p>
-                </div>
-                <div class="flex flex-wrap gap-2 text-sm text-gray-500 mt-1">
-                  <p class="bg-gray-100 flex items-center gap-1 px-2 py-1 rounded-lg font-bold hover:bg-gray-200 transition">
-                    <IconUsersGroup class="w-4 h-4 text-primary" /> {{ trip.totalPlaces }}
-                  </p>
-                  <p class="bg-gray-100 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-200 transition">
-                    <IconUserOff class="w-4 h-4 text-red-400" /> {{ trip.takenPlaces }}
-                  </p>
-                  <p class="bg-gray-100 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-200 transition">
-                    <IconUserExclamation class="w-4 h-4 text-secondary-500" /> {{ trip.remainingPlaces }}
-                  </p>
-                </div>
-                <div class="flex justify-between items-center mt-3">
-                  <p class="font-bold text-lg text-secondary-500">{{ trip.price }} XAF</p>
-                  <button class="text-sm p-2 rounded-lg hover:text-secondary-500 transition duration-200" @click="viewTrip(trip)">
-                    <IconEye />
-                  </button>
+            <div class="p-6">
+              <div class="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
+                <!-- Conducteur et horaires -->
+                <div class="flex items-center space-x-4 flex-1">
+                  <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-primary-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    {{ trip.driver.split(' ').map(n => n[0]).join('') }}
+                  </div>
 
+                  <div class="flex-1">
+                    <div class="flex items-center space-x-2 mb-2">
+                      <h3 class="font-semibold text-gray-800">{{ trip.driver }}</h3>
+                      <div class="flex items-center">
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span class="text-sm text-gray-600 ml-1">{{ trip.rating }}</span>
+                      </div>
+                    </div>
+
+                    <div class="text-sm text-gray-600">
+                      <span class="font-medium">{{ trip.departureTime }}</span> -
+                      <span class="font-medium">{{ trip.arrivalTime }}</span>
+                      <span class="mx-2">•</span>
+                      <span>{{ trip.duration }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Itinéraire -->
+                <div class="flex items-center space-x-4 flex-1 justify-center">
+                  <div class="text-center">
+                    <div class="text-lg font-semibold text-gray-800">{{ trip.departure }}</div>
+                    <div class="text-sm text-gray-500">{{ trip.departureTime }}</div>
+                  </div>
+
+                  <div class="flex items-center space-x-2 px-4">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div class="w-16 h-px bg-gray-300"></div>
+                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <div class="w-16 h-px bg-gray-300"></div>
+                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="text-lg font-semibold text-gray-800">{{ trip.arrival }}</div>
+                    <div class="text-sm text-gray-500">{{ trip.arrivalTime }}</div>
+                  </div>
+                </div>
+
+                <!-- Prix et places -->
+                <div class="flex items-center justify-between lg:justify-end space-x-6">
+                  <div class="text-center">
+                    <div class="text-sm text-gray-500">Places restantes</div>
+                    <div class="font-semibold text-gray-800">{{ trip.remainingPlaces }}/{{ trip.totalPlaces }}</div>
+                  </div>
+
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-secondary-600">{{ trip.price.toLocaleString() }}</div>
+                    <div class="text-sm text-gray-500">XAF</div>
+                  </div>
+
+                  <button
+                    @click="viewTrip(trip)"
+                    :disabled="trip.remainingPlaces === 0"
+                    class="bg-secondary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  >
+                    <span v-if="trip.remainingPlaces > 0">Réserver</span>
+                    <span v-else>Complet</span>
+                  </button>
                 </div>
               </div>
             </div>
           </Motion>
+        </div>
 
+        <!-- Pagination -->
+        <div v-if="totalTripsCount > tripsPerPage" class="mt-12 flex justify-center">
+          <div class="flex items-center space-x-2">
+            <button
+              @click="goToPage(currentPage - 1)"
+              :disabled="currentPage === 1"
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Précédent
+            </button>
+
+            <!-- Numéros de pages -->
+            <template v-for="page in visiblePages" :key="page">
+              <button
+                v-if="page !== '...'"
+                @click="goToPage(page)"
+                :class="[
+                  'px-4 py-2 rounded-lg transition-colors',
+                  page === currentPage
+                    ? 'bg-secondary-500 text-white'
+                    : 'border border-gray-300 hover:bg-gray-50'
+                ]"
+              >
+                {{ page }}
+              </button>
+              <span v-else class="px-2 py-2 text-gray-500">...</span>
+            </template>
+
+            <button
+              @click="goToPage(currentPage + 1)"
+              :disabled="currentPage === totalPages"
+              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Suivant
+            </button>
+          </div>
+
+          <!-- Info pagination -->
+          <div class="mt-4 text-center text-gray-600">
+            Page {{ currentPage }} sur {{ totalPages }} • {{ totalTripsCount }} trajets au total
+          </div>
         </div>
       </div>
     </section>
-    <!-- SIDEBAR DE DÉTAILS -->
-    <transition name="apparaitre">
-      <div v-if="showSidebar" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
 
-        <!-- Contenu du panneau -->
-        <div class="relative w-full max-w-md md:w-[450px] bg-white rounded-lg shadow-2xl overflow-y-auto max-h-[90vh]">
-
-          <!-- HEADER -->
-          <div class="flex items-center justify-between p-4 border-b bg-gray-50">
-            <h2 class="text-xl font-bold text-secondary-600">Détails du trajet</h2>
-            <button @click="closeSidebar" class="text-gray-500 hover:text-red-500 text-2xl font-bold">×</button>
-          </div>
-
-          <!-- IMAGE -->
-          <div class="w-full h-48 relative">
-            <img :src="imgfont" alt="Trajet" class="w-full h-full object-cover rounded-b-none rounded-t-lg" />
-            <div class="absolute top-2 right-2 bg-white rounded-full px-3 py-1 text-sm font-bold text-gray-700 shadow">
-              ♥ {{ selectedTrip?.likes }}
-            </div>
-          </div>
-
-          <!-- INFOS -->
-          <div class="p-5 space-y-5">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-              <!-- Ligne 1 -->
-              <div class="flex items-center gap-3">
-                <IconMapPin class="w-6 h-6 text-primary" />
-                <span><strong>Départ :</strong> {{ selectedTrip?.departure }}</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <IconMapPin class="w-6 h-6 text-secondary-500" />
-                <span><strong>Arrivée :</strong> {{ selectedTrip?.arrival }}</span>
-              </div>
-
-              <!-- Ligne 2 -->
-              <div class="flex items-center gap-3">
-                <IconUsersGroup class="w-6 h-6 text-primary" />
-                <span><strong>Places :</strong> {{ selectedTrip?.totalPlaces }}</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <IconUserOff class="w-6 h-6 text-red-400" />
-                <span><strong>Occupées :</strong> {{ selectedTrip?.takenPlaces }}</span>
-              </div>
-
-              <!-- Ligne 3 -->
-              <div class="flex items-center gap-3">
-                <IconUserExclamation class="w-6 h-6 text-secondary-500" />
-                <span><strong>Restantes :</strong> {{ selectedTrip?.remainingPlaces }}</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <IconMoneybag class="w-6 h-6 text-secondary-600" />
-                <span><strong>Prix :</strong> {{ selectedTrip?.price }} XAF / pls</span>
-              </div>
-            </div>
-
-            <!-- CHAMP DE RÉSERVATION -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de places à réserver</label>
-              <input
-                v-model.number="reservationCount"
-                type="number"
-                min="1"
-                :max="selectedTrip?.remainingPlaces"
-                class="w-full p-3 border border-secondary-500 rounded-lg outline-none bg-white text-gray-700 text-center"
-              />
-            </div>
-
-            <!-- BOUTON -->
-            <button
-              @click="submitReservation"
-              class="w-full bg-secondary-500 text-white py-3 px-6 rounded-md font-bold hover:bg-secondary-600 transition-all duration-200"
-            >
-              Réserver maintenant
+    <!-- Modal de détails -->
+    <transition name="modal">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <!-- Header -->
+          <div class="flex items-center justify-between p-6 border-b">
+            <h2 class="text-2xl font-bold text-gray-800">Détails du trajet</h2>
+            <button @click="closeModal" class="text-gray-500 hover:text-gray-700 transition-colors">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
             </button>
+          </div>
+
+          <!-- Contenu -->
+          <div class="p-6" v-if="selectedTrip">
+            <!-- Info conducteur -->
+            <div class="flex items-center space-x-4 mb-6 p-4 bg-gray-50 rounded-xl">
+              <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-primary-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                {{ selectedTrip.driver.split(' ').map(n => n[0]).join('') }}
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-800">{{ selectedTrip.driver }}</h3>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span class="text-sm text-gray-600 ml-1">{{ selectedTrip.rating }} ({{ selectedTrip.reviews }} avis)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Détails du trajet -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span class="font-medium">{{ selectedTrip.departure }}</span>
+                  <span class="text-gray-500">{{ selectedTrip.departureTime }}</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <span class="font-medium">{{ selectedTrip.arrival }}</span>
+                  <span class="text-gray-500">{{ selectedTrip.arrivalTime }}</span>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Prix par personne:</span>
+                  <span class="font-semibold">{{ selectedTrip.price.toLocaleString() }} XAF</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Places disponibles:</span>
+                  <span class="font-semibold">{{ selectedTrip.remainingPlaces }}/{{ selectedTrip.totalPlaces }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Durée du trajet:</span>
+                  <span class="font-semibold">{{ selectedTrip.duration }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Réservation -->
+            <div class="border-t pt-6">
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Nombre de places à réserver
+                </label>
+                <div class="flex items-center space-x-4">
+                  <button
+                    @click="decrementReservation"
+                    :disabled="reservationCount <= 1"
+                    class="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <span class="text-xl font-semibold">{{ reservationCount }}</span>
+                  <button
+                    @click="incrementReservation"
+                    :disabled="reservationCount >= selectedTrip.remainingPlaces"
+                    class="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-lg font-medium">Total:</span>
+                <span class="text-2xl font-bold text-secondary-600">
+                  {{ (selectedTrip.price * reservationCount).toLocaleString() }} XAF
+                </span>
+              </div>
+
+              <button
+                @click="confirmReservation"
+                class="w-full bg-secondary-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-secondary-600 transition-colors"
+              >
+                Confirmer la réservation
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </transition>
-
-
 
     <Footer />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Header from "@public/components/header.vue"
 import Footer from './components/footer.vue'
 import { Motion } from '@motionone/vue'
-import imgfont from "@/assets/images/imgfont.png"
-import imgCarRed from "@/assets/images/imgCarRed.jpg"
-import {
-  IconUsersGroup,
-  IconUserOff,
-  IconUserExclamation,
-  IconEye,
-  IconMapPin,
-  IconMoneybag
-} from '@tabler/icons-vue'
 
-const searchData = ref({
-  departureAddress: '',
-  arrivalAddress: '',
-  departureTime: '',
-  passengerCount: 1,
+// États réactifs
+const searchFilters = ref({
+  departure: '',
+  arrival: '',
+  date: '',
+  passengers: 1
 })
 
-const isLoading = ref(false)
-const isLoadingTrips = ref(true)
-
-onMounted(() => {
-  setTimeout(() => {
-    isLoadingTrips.value = false
-  }, 20000)
-})
-
-const cities = ['Yaoundé', 'Douala', 'Bafoussam', 'Garoua', 'Maroua', 'Bertoua', 'Ngaoundéré']
-
-const latestTrips = ref([
-  { id: 1, departure: 'Yaoundé', arrival: 'Douala', totalPlaces: 5, takenPlaces: 3, remainingPlaces: 2, price: 3700, likes: 3 },
-  { id: 2, departure: 'Douala', arrival: 'Bafoussam', totalPlaces: 4, takenPlaces: 2, remainingPlaces: 2, price: 6000, likes: 5 },
-  { id: 3, departure: 'Maroua', arrival: 'Garoua', totalPlaces: 4, takenPlaces: 2, remainingPlaces: 2, price: 12000, likes: 4 },
-  { id: 4, departure: 'Garoua', arrival: 'Ngaoundéré', totalPlaces: 6, takenPlaces: 3, remainingPlaces: 3, price: 8000, likes: 2 },
-])
-
-const showSidebar = ref(false)
+const sortBy = ref('time')
+const isLoading = ref(true)
+const showModal = ref(false)
 const selectedTrip = ref(null)
 const reservationCount = ref(1)
+
+// Pagination
+const currentPage = ref(1)
+const tripsPerPage = ref(10)
+const totalPages = ref(0)
+
+// Données
+const cities = [
+  'Yaoundé', 'Douala', 'Bafoussam', 'Garoua', 'Maroua',
+  'Bertoua', 'Ngaoundéré', 'Bamenda', 'Limbé', 'Ebolowa'
+]
+
+const allTrips = ref([
+  {
+    id: 1,
+    driver: 'Jean Martin',
+    rating: 4.8,
+    reviews: 25,
+    departure: 'Yaoundé',
+    arrival: 'Douala',
+    departureTime: '08:00',
+    arrivalTime: '11:30',
+    duration: '3h 30min',
+    date: '2025-08-04',
+    price: 3500,
+    totalPlaces: 4,
+    remainingPlaces: 2
+  },
+  {
+    id: 2,
+    driver: 'Marie Kouna',
+    rating: 4.9,
+    reviews: 42,
+    departure: 'Douala',
+    arrival: 'Bafoussam',
+    departureTime: '14:30',
+    arrivalTime: '18:00',
+    duration: '3h 30min',
+    date: '2025-08-04',
+    price: 4000,
+    totalPlaces: 4,
+    remainingPlaces: 3
+  },
+  {
+    id: 3,
+    driver: 'Paul Ngono',
+    rating: 4.7,
+    reviews: 18,
+    departure: 'Yaoundé',
+    arrival: 'Bafoussam',
+    departureTime: '06:00',
+    arrivalTime: '09:15',
+    duration: '3h 15min',
+    date: '2025-08-05',
+    price: 3800,
+    totalPlaces: 5,
+    remainingPlaces: 1
+  },
+  {
+    id: 4,
+    driver: 'Sophie Talla',
+    rating: 5.0,
+    reviews: 65,
+    departure: 'Bamenda',
+    arrival: 'Douala',
+    departureTime: '07:30',
+    arrivalTime: '12:00',
+    duration: '4h 30min',
+    date: '2025-08-04',
+    price: 5500,
+    totalPlaces: 4,
+    remainingPlaces: 4
+  },
+  {
+    id: 5,
+    driver: 'Ahmed Bello',
+    rating: 4.6,
+    reviews: 31,
+    departure: 'Garoua',
+    arrival: 'Maroua',
+    departureTime: '09:30',
+    arrivalTime: '12:30',
+    duration: '3h 00min',
+    date: '2025-08-05',
+    price: 2500,
+    totalPlaces: 6,
+    remainingPlaces: 5
+  },
+  {
+    id: 6,
+    driver: 'Fatima Alhadji',
+    rating: 4.8,
+    reviews: 22,
+    departure: 'Douala',
+    arrival: 'Limbé',
+    departureTime: '16:00',
+    arrivalTime: '17:30',
+    duration: '1h 30min',
+    date: '2025-08-04',
+    price: 1500,
+    totalPlaces: 4,
+    remainingPlaces: 3
+  },
+  {
+    id: 7,
+    driver: 'Gabriel Tchoua',
+    rating: 4.5,
+    reviews: 15,
+    departure: 'Yaoundé',
+    arrival: 'Ebolowa',
+    departureTime: '10:00',
+    arrivalTime: '12:30',
+    duration: '2h 30min',
+    date: '2025-08-05',
+    price: 2800,
+    totalPlaces: 5,
+    remainingPlaces: 0
+  },
+  {
+    id: 8,
+    driver: 'Aminata Diallo',
+    rating: 4.9,
+    reviews: 38,
+    departure: 'Bamenda',
+    arrival: 'Yaoundé',
+    departureTime: '05:30',
+    arrivalTime: '11:00',
+    duration: '5h 30min',
+    date: '2025-08-06',
+    price: 6500,
+    totalPlaces: 4,
+    remainingPlaces: 2
+  },
+  // Ajouter plus de trajets pour simuler une grande base de données
+  {
+    id: 9,
+    driver: 'Ernest Manga',
+    rating: 4.3,
+    reviews: 12,
+    departure: 'Yaoundé',
+    arrival: 'Bertoua',
+    departureTime: '07:00',
+    arrivalTime: '11:30',
+    duration: '4h 30min',
+    date: '2025-08-04',
+    price: 4500,
+    totalPlaces: 4,
+    remainingPlaces: 3
+  },
+  {
+    id: 10,
+    driver: 'Chantal Mbia',
+    rating: 4.7,
+    reviews: 28,
+    departure: 'Douala',
+    arrival: 'Yaoundé',
+    departureTime: '15:00',
+    arrivalTime: '18:30',
+    duration: '3h 30min',
+    date: '2025-08-04',
+    price: 3500,
+    totalPlaces: 5,
+    remainingPlaces: 2
+  },
+  {
+    id: 11,
+    driver: 'Robert Ekani',
+    rating: 4.6,
+    reviews: 19,
+    departure: 'Bafoussam',
+    arrival: 'Douala',
+    departureTime: '06:30',
+    arrivalTime: '10:00',
+    duration: '3h 30min',
+    date: '2025-08-05',
+    price: 4000,
+    totalPlaces: 4,
+    remainingPlaces: 4
+  },
+  {
+    id: 12,
+    driver: 'Sylvie Nkomo',
+    rating: 4.8,
+    reviews: 34,
+    departure: 'Ngaoundéré',
+    arrival: 'Garoua',
+    departureTime: '08:00',
+    arrivalTime: '11:00',
+    duration: '3h 00min',
+    date: '2025-08-06',
+    price: 3000,
+    totalPlaces: 6,
+    remainingPlaces: 5
+  },
+  {
+    id: 13,
+    driver: 'Michel Biya',
+    rating: 4.4,
+    reviews: 16,
+    departure: 'Ebolowa',
+    arrival: 'Yaoundé',
+    departureTime: '12:00',
+    arrivalTime: '14:30',
+    duration: '2h 30min',
+    date: '2025-08-04',
+    price: 2800,
+    totalPlaces: 5,
+    remainingPlaces: 1
+  },
+  {
+    id: 14,
+    driver: 'Nadège Fokou',
+    rating: 4.9,
+    reviews: 41,
+    departure: 'Limbé',
+    arrival: 'Douala',
+    departureTime: '18:00',
+    arrivalTime: '19:30',
+    duration: '1h 30min',
+    date: '2025-08-05',
+    price: 1500,
+    totalPlaces: 4,
+    remainingPlaces: 3
+  },
+  {
+    id: 15,
+    driver: 'David Kameni',
+    rating: 4.5,
+    reviews: 23,
+    departure: 'Maroua',
+    arrival: 'Garoua',
+    departureTime: '14:00',
+    arrivalTime: '17:00',
+    duration: '3h 00min',
+    date: '2025-08-06',
+    price: 2500,
+    totalPlaces: 6,
+    remainingPlaces: 4
+  }
+])
+
+// Propriétés calculées
+const today = computed(() => {
+  const date = new Date()
+  return date.toISOString().split('T')[0]
+})
+
+const filteredTrips = computed(() => {
+  let trips = [...allTrips.value]
+
+  // Filtrer par départ
+  if (searchFilters.value.departure) {
+    trips = trips.filter(trip => trip.departure === searchFilters.value.departure)
+  }
+
+  // Filtrer par arrivée
+  if (searchFilters.value.arrival) {
+    trips = trips.filter(trip => trip.arrival === searchFilters.value.arrival)
+  }
+
+  // Filtrer par date
+  if (searchFilters.value.date) {
+    trips = trips.filter(trip => trip.date === searchFilters.value.date)
+  }
+
+  // Filtrer par nombre de places disponibles
+  trips = trips.filter(trip => trip.remainingPlaces >= searchFilters.value.passengers)
+
+  return trips
+})
+
+const paginatedTrips = computed(() => {
+  const start = (currentPage.value - 1) * tripsPerPage.value
+  const end = start + tripsPerPage.value
+  return filteredTrips.value.slice(start, end)
+})
+
+const totalTripsCount = computed(() => filteredTrips.value.length)
+
+const hasActiveFilters = computed(() => {
+  return searchFilters.value.departure ||
+    searchFilters.value.arrival ||
+    searchFilters.value.date ||
+    searchFilters.value.passengers > 1
+})
+
+const totalTrips = computed(() => allTrips.value.length)
+
+// Calcul des pages visibles pour la pagination
+const visiblePages = computed(() => {
+  const total = Math.ceil(totalTripsCount.value / tripsPerPage.value)
+  totalPages.value = total
+
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1)
+  }
+
+  const current = currentPage.value
+  if (current <= 4) {
+    return [1, 2, 3, 4, 5, '...', total]
+  }
+
+  if (current >= total - 3) {
+    return [1, '...', total - 4, total - 3, total - 2, total - 1, total]
+  }
+
+  return [1, '...', current - 1, current, current + 1, '...', total]
+})
+
+// Méthodes
+const filterTrips = () => {
+  // Réinitialiser à la page 1 lors d'un nouveau filtrage
+  currentPage.value = 1
+  console.log('Filtres appliqués:', searchFilters.value)
+}
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+    // Scroll vers le haut de la section
+    document.querySelector('.py-12').scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const sortTrips = () => {
+  switch (sortBy.value) {
+    case 'price':
+      allTrips.value.sort((a, b) => a.price - b.price)
+      break
+    case 'places':
+      allTrips.value.sort((a, b) => b.remainingPlaces - a.remainingPlaces)
+      break
+    case 'time':
+    default:
+      allTrips.value.sort((a, b) => a.departureTime.localeCompare(b.departureTime))
+      break
+  }
+}
+
+const resetFilters = () => {
+  searchFilters.value = {
+    departure: '',
+    arrival: '',
+    date: '',
+    passengers: 1
+  }
+  currentPage.value = 1
+}
+
+const incrementPassengers = () => {
+  searchFilters.value.passengers++
+  filterTrips()
+}
+
+const decrementPassengers = () => {
+  if (searchFilters.value.passengers > 1) {
+    searchFilters.value.passengers--
+    filterTrips()
+  }
+}
 
 const viewTrip = (trip) => {
   selectedTrip.value = trip
   reservationCount.value = 1
-  showSidebar.value = true
+  showModal.value = true
 }
 
-const closeSidebar = () => {
-  showSidebar.value = false
+const closeModal = () => {
+  showModal.value = false
   selectedTrip.value = null
+  reservationCount.value = 1
 }
 
-const submitReservation = () => {
-  if (reservationCount.value > selectedTrip.value.remainingPlaces) {
-    alert("Le nombre de places demandées dépasse les places restantes.")
-    return
-  }
-
-  // Traitement de réservation ici (à remplacer par API)
-  alert(`Réservation de ${reservationCount.value} place(s) pour le trajet ${selectedTrip.value.departure} → ${selectedTrip.value.arrival}`)
-
-  closeSidebar()
-}
-
-const incrementPassengers = () => {
-  searchData.value.passengerCount++
-}
-
-const decrementPassengers = () => {
-  if (searchData.value.passengerCount > 1) {
-    searchData.value.passengerCount--
+const incrementReservation = () => {
+  if (reservationCount.value < selectedTrip.value.remainingPlaces) {
+    reservationCount.value++
   }
 }
 
-const searchTrip = async () => {
-  isLoading.value = true
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  alert('Recherche de trajet en cours...')
-  isLoading.value = false
+const decrementReservation = () => {
+  if (reservationCount.value > 1) {
+    reservationCount.value--
+  }
 }
+
+const confirmReservation = () => {
+  // Ici, vous pouvez implémenter la logique de réservation
+  alert(`Réservation confirmée pour ${reservationCount.value} place(s) sur le trajet ${selectedTrip.value.departure} → ${selectedTrip.value.arrival}`)
+
+  // Mettre à jour les places disponibles
+  selectedTrip.value.remainingPlaces -= reservationCount.value
+
+  // Mettre à jour dans la liste principale
+  const tripIndex = allTrips.value.findIndex(trip => trip.id === selectedTrip.value.id)
+  if (tripIndex !== -1) {
+    allTrips.value[tripIndex].remainingPlaces = selectedTrip.value.remainingPlaces
+  }
+
+  closeModal()
+}
+
+// Cycle de vie
+onMounted(() => {
+  // Simuler le chargement initial des trajets
+  setTimeout(() => {
+    isLoading.value = false
+  }, 1500)
+
+  // Ne pas définir de date par défaut pour montrer tous les trajets
+  // searchFilters.value.date = today.value
+})
 </script>
 
 <style scoped>
-.animate-pulse {
-  animation: pulse 1.5s ease-in-out infinite;
-}
+/* Animation de pulse pour le loading */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.5;
   }
 }
-/* Apparition douce avec délai */
-.apparaitre-enter-active,
-.apparaitre-leave-active {
-  transition: opacity 0.6s ease 0.3s; /* durée lente + delay */
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.apparaitre-enter-from,
-.apparaitre-leave-to {
+/* Animation pour la modal */
+.modal-enter-active, .modal-leave-active {
+  transition: all 0.3s ease;
+}
+
+.modal-enter-from, .modal-leave-to {
   opacity: 0;
+  transform: scale(0.9);
 }
 
-.apparaitre-enter-to,
-.apparaitre-leave-from {
-  opacity: 1;
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Style pour les boutons disabled */
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Effet hover sur les cartes de trajets */
+.trip-card {
+  transition: all 0.3s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Style pour les inputs focus */
+input:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Animation pour les éléments qui apparaissent */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
-
