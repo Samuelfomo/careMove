@@ -156,7 +156,7 @@
             </div>
 
             <nav class="flex flex-col space-y-4 py-5">
-              <router-link to="#" class="w-full h-full text-lg font-bold hover:text-secondary-400 flex justify-between py-3
+              <router-link to="/searchTrip" class="w-full h-full text-lg font-bold hover:text-secondary-400 flex justify-between py-3
             border-b items-center"
                            :class="[$route.name === 'values' ? activeDrawerClass : 'text-white']"
                            @click="OpenAboutUs"
@@ -169,7 +169,7 @@
                   <path v-if="viewaboutUs2" d="M2 9l10 11l10 -12" />
                 </svg>
               </router-link>
-              <router-link to="#" class="w-full h-full text-lg font-bold hover:text-secondary-400 flex justify-between py-3 border-b
+              <router-link to="/proposeTrip" class="w-full h-full text-lg font-bold hover:text-secondary-400 flex justify-between py-3 border-b
             items-center"
                            :class="[$route.name === 'products' ? activeDrawerClass : 'text-white']"
                            @click="OpenProducts"

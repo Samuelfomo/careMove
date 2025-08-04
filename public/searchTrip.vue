@@ -23,7 +23,7 @@
               <div class="relative">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Départ</label>
                 <div class="relative">
-                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <svg class="w-10 h-10 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
                     <circle cx="10" cy="10" r="3" />
                   </svg>
                   <select
@@ -41,7 +41,7 @@
               <div class="relative">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Arrivée</label>
                 <div class="relative">
-                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-accent-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
                   <select
@@ -75,12 +75,12 @@
               <!-- Passagers -->
               <div class="relative">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Passagers</label>
-                <div class="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                <div class="grid grid-cols-3 items-center border-2 border-gray-200 rounded-xl overflow-hidden">
                   <button
                     type="button"
                     @click="decrementPassengers"
                     :disabled="searchFilters.passengers <= 1"
-                    class="px-3 py-3 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    class="px-3 h-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -96,7 +96,7 @@
                   <button
                     type="button"
                     @click="incrementPassengers"
-                    class="px-3 py-3 bg-gray-100 hover:bg-gray-200 transition-colors"
+                    class="px-3 h-full bg-gray-100 hover:bg-gray-200 transition-colors"
                   >
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
@@ -107,10 +107,10 @@
             </div>
 
             <!-- Bouton de réinitialisation -->
-            <div class="mt-4 text-center">
+            <div class="pt-4 text-center">
               <button
                 @click="resetFilters"
-                class="text-secondary-600 hover:text-secondary-700 font-medium underline"
+                class="text-secondary btn-sm hover:text-secondary-700 hover:scale-105 transition-transform duration-500 font-medium underline"
               >
                 Réinitialiser les filtres
               </button>
@@ -126,7 +126,7 @@
         <!-- En-tête des résultats -->
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
           <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-2">
               {{ totalTripsCount }} trajet{{ totalTripsCount > 1 ? 's' : '' }} trouvé{{ totalTripsCount > 1 ? 's' : '' }}
             </h2>
             <p class="text-gray-600">
@@ -168,14 +168,14 @@
 
           <!-- Aucun résultat -->
           <div v-else-if="totalTripsCount === 0 && hasActiveFilters" class="text-center py-12">
-            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-24 h-24 mx-auto text-secondary-accent-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
             </svg>
-            <h3 class="text-xl font-semibold text-gray-600 mb-2">Aucun trajet trouvé</h3>
+            <h3 class="text-xl font-semibold text-secondary-accent-500 mb-2">Aucun trajet trouvé</h3>
             <p class="text-gray-500 mb-4">Aucun trajet ne correspond à vos critères de recherche</p>
             <button
               @click="resetFilters"
-              class="bg-secondary-500 text-white px-6 py-2 rounded-lg hover:bg-secondary-600 transition-colors"
+              class="bg-secondary-500 text-white font-medium px-6 py-3 rounded-lg hover:bg-secondary-600 transition-colors"
             >
               Voir tous les trajets
             </button>
@@ -269,7 +269,7 @@
         </div>
 
         <!-- Pagination -->
-        <div v-if="totalTripsCount > tripsPerPage" class="mt-12 flex justify-center">
+        <div v-if="totalTripsCount > tripsPerPage" class="mt-12 flex justify-center items-center space-x-2">
           <div class="flex items-center space-x-2">
             <button
               @click="goToPage(currentPage - 1)"
@@ -306,7 +306,7 @@
           </div>
 
           <!-- Info pagination -->
-          <div class="mt-4 text-center text-gray-600">
+          <div class="mt-4 text-right w-full text-gray-600">
             Page {{ currentPage }} sur {{ totalPages }} • {{ totalTripsCount }} trajets au total
           </div>
         </div>
@@ -450,7 +450,7 @@ const reservationCount = ref(1)
 
 // Pagination
 const currentPage = ref(1)
-const tripsPerPage = ref(10)
+const tripsPerPage = ref(4)
 const totalPages = ref(0)
 
 // Données

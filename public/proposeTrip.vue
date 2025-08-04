@@ -95,8 +95,8 @@ onMounted(() => {
   <div class="min-h-screen flex flex-col border-b border-gray-600  bg-gradient-to-tr from-gray-100 via-primary-800 to-gray-100">
     <Header />
 
-    <main class="flex-1 flex items-center justify-center px-4 xl:mt-36">
-      <div class="flex flex-col lg:flex-row space-x-8 justify-between rounded w-full max-w-8xl container p-10 place-items-center">
+    <main class="flex-1 flex items-center justify-center px-4 mt-36">
+      <div class="flex flex-col lg:flex-row md:space-x-8 justify-between rounded w-full max-w-8xl container md:p-10 place-items-center">
 
         <!-- Formulaire -->
         <Motion
@@ -134,7 +134,7 @@ onMounted(() => {
             </Motion>
 
             <!-- Date et Heure -->
-            <div class="flex space-x-3">
+            <div class="flex md:flex-nowrap flex-col md:space-x-3 md:space-y-0 space-y-3">
               <Motion
                 v-for="(label, index) in ['Date de départ', 'Heure de départ']"
                 :key="label"
@@ -194,7 +194,7 @@ onMounted(() => {
         </Motion>
 
         <!-- Liste des trajets -->
-        <div class="w-full lg:w-1/2 text-white">
+        <div class="w-full lg:w-1/2 text-white md:py-0 py-4">
           <h3 class="text-2xl font-semibold mb-4 text-center">Derniers trajets publiés</h3>
           <div class="space-y-4">
 
@@ -231,26 +231,25 @@ onMounted(() => {
     </main>
 
 
-      <section class="py-10 mt-12">
+      <section class="py-10 md:mt-12">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="text-center text-white">
-              <h3 class="text-4xl font-bold mb-2">Rejoignez 200</h3>
-              <p class="text-lg">autres conducteurs certifiés sur ShareWuma</p>
+              <p class="md:text-lg text-base">autres conducteurs certifiés sur ShareWuma</p>
             </div>
             <div class="text-center text-white">
-              <h3 class="text-4xl font-bold mb-2">Plus de 1000</h3>
-              <p class="text-lg">membres inscrits à travers le notre solution</p>
+              <h3 class="md:text-4xl text-3xl font-bold mb-2">Plus de 1000</h3>
+              <p class="md:text-lg text-base">membres inscrits à travers le notre solution</p>
             </div>
             <div class="text-center text-white">
-              <h3 class="text-4xl font-bold mb-2">Plus de 40 trajets</h3>
-              <p class="text-lg">partagés chaque jours</p>
+              <h3 class="md:text-4xl text-3xl font-bold mb-2">Plus de 40 trajets</h3>
+              <p class="md:text-lg text-base">partagés chaque jours</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="py-12">
+      <section class="md:py-12 pb-12">
         <div class="container mx-auto px-4">
           <div class="flex items-center justify-center space-x-8">
 
