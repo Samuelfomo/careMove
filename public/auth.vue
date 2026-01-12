@@ -3,7 +3,17 @@
     <Header />
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center min-h-screen justify-center px-4 pb-10 bg-[url(@/assets/images/bg3.jpg)]">
+    <main class="flex-1 flex items-center min-h-screen justify-center px-4 pb-10 bg-gradient-to-tr from-secondary-400 to-secondary-400 via-primary/90 overflow-hidden relative">
+
+      <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-primary-900/70"></div>
+<!--        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">-->
+
+        <!-- Floating Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute bottom-32 right-16 w-32 h-32 bg-primary-accent/20 rounded-full blur-2xl animate-bounce-light"></div>
+        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-secondary-accent/30 rounded-full blur-lg animate-pulse"></div>
+      </div>
       <div class="w-full max-w-2xl lg:pt-0 pt-28">
 
         <!-- Interface 1 : Demande de token (maintenant première) -->
@@ -303,6 +313,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import Header from "@public/components/header.vue";
+import Voyage from "@/assets/images/logo.svg";
 
 // État réactif - Vue par défaut changée de 'token' à 'request'
 const currentView = ref('request') // 'request', 'token', 'email'

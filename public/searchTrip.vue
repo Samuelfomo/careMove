@@ -1,119 +1,149 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
     <Header />
 
-    <!-- Hero Section avec Search -->
-    <section class="bg-gradient-to-br from-primary-600 to-secondary-600 pt-24 pb-12">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <!-- Titre -->
-          <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-white py-10">
-              Trouvez votre trajet idéal
+    <!-- Hero Section avec Search amélioré -->
+    <section class="relative bg-gradient-to-br from-primary-600 to-secondary pt-24 pb-16">
+      <!-- Motif de fond -->
+      <div class="absolute inset-0 bg-black/50">
+        <div class="absolute inset-0"
+             style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'2\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')">
+        </div>
+      </div>
+
+      <div class="container mx-auto px-4 relative">
+        <div class="max-w-6xl mx-auto">
+          <!-- En-tête avec statistiques -->
+          <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-white my-10">
+              Voyagez <span class="text-primary-accent-500">ensemble</span>
             </h1>
-            <p class="text-xl text-white/90">
-              Plus de {{ totalTrips }} trajets disponibles aujourd'hui
+            <p class="text-xl text-white/90 mb-8">
+              Découvrez des trajets sûrs et économiques avec des conducteurs vérifiés
             </p>
+
+            <!-- Statistiques -->
+            <div class="flex flex-wrap justify-center gap-8 mb-12">
+              <div class="text-center" v-for="(stat, index) in statistiques" :key="index">
+                <div class="text-3xl font-bold text-primary-accent-500">{{ stat.title }}</div>
+                <div class="text-white/80 text-sm">{{ stat.description }}</div>
+              </div>
+            </div>
           </div>
 
-          <!-- Formulaire de recherche -->
-          <div class="bg-white rounded-2xl shadow-2xl p-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- Formulaire de recherche modernisé -->
+          <div class="bg-white rounded-3xl shadow-2xl p-8">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
               <!-- Départ -->
-              <div class="relative">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Départ</label>
-                <div class="relative">
-                  <svg class="w-10 h-10 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
-                    <circle cx="10" cy="10" r="3" />
+              <div class="lg:col-span-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                  <svg class="inline w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
-                  <select
-                    v-model="searchFilters.departure"
-                    @change="filterTrips"
-                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
-                  >
-                    <option value="">Toutes les villes</option>
-                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-                  </select>
-                </div>
+                  Ville de départ
+                </label>
+                <select
+                  v-model="searchFilters.departure"
+                  @change="filterTrips"
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                >
+                  <option value="">Choisir une ville</option>
+                  <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                </select>
               </div>
 
               <!-- Arrivée -->
-              <div class="relative">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Arrivée</label>
-                <div class="relative">
-                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-accent-600" fill="currentColor" viewBox="0 0 20 20">
+              <div class="lg:col-span-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                  <svg class="inline w-4 h-4 mr-2 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
-                  <select
-                    v-model="searchFilters.arrival"
-                    @change="filterTrips"
-                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
-                  >
-                    <option value="">Toutes les villes</option>
-                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-                  </select>
-                </div>
+                  Destination
+                </label>
+                <select
+                  v-model="searchFilters.arrival"
+                  @change="filterTrips"
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                >
+                  <option value="">Choisir une ville</option>
+                  <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                </select>
               </div>
 
               <!-- Date -->
-              <div class="relative">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Date de départ</label>
-                <div class="relative">
-                  <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
+              <div class="lg:col-span-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                  <svg class="inline w-4 h-4 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                   </svg>
-                  <input
-                    v-model="searchFilters.date"
-                    @change="filterTrips"
-                    type="date"
-                    :min="today"
-                    class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all"
-                  />
-                </div>
+                  Date de départ
+                </label>
+                <input
+                  v-model="searchFilters.date"
+                  @change="filterTrips"
+                  type="date"
+                  :min="today"
+                  class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                />
               </div>
 
               <!-- Passagers -->
-              <div class="relative">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Passagers</label>
-                <div class="grid grid-cols-3 items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+              <div class="lg:col-span-1">
+                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                  <svg class="inline w-4 h-4 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+                  </svg>
+                  Passagers
+                </label>
+                <div class="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
                   <button
                     type="button"
                     @click="decrementPassengers"
                     :disabled="searchFilters.passengers <= 1"
-                    class="px-3 h-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    class="p-4 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                    </svg>
+                    <span class="text-lg font-bold">-</span>
                   </button>
-                  <input
-                    v-model="searchFilters.passengers"
-                    type="number"
-                    min="1"
-                    readonly
-                    class="flex-1 py-3 text-center border-0 focus:ring-0 outline-none"
-                  />
+                  <div class="flex-1 p-4 text-center font-semibold">
+                    {{ searchFilters.passengers }}
+                  </div>
                   <button
                     type="button"
                     @click="incrementPassengers"
-                    class="px-3 h-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                    class="p-4 bg-gray-100 hover:bg-gray-200 transition-colors"
                   >
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
+                    <span class="text-lg font-bold">+</span>
                   </button>
                 </div>
               </div>
+
+              <!-- Bouton Rechercher -->
+              <div class="lg:col-span-1 flex items-end">
+                <button
+                  @click="filterTrips"
+                  class="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white p-4 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <svg class="w-5 h-5 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="block text-sm">Rechercher</span>
+                </button>
+              </div>
             </div>
 
-            <!-- Bouton de réinitialisation -->
-            <div class="pt-4 text-center">
-              <button
-                @click="resetFilters"
-                class="text-secondary btn-sm hover:text-secondary-700 hover:scale-105 transition-transform duration-500 font-medium underline"
-              >
-                Réinitialiser les filtres
-              </button>
+            <!-- Recherches populaires -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <p class="text-sm text-gray-600 mb-3">Trajets populaires :</p>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  v-for="route in popularRoutes"
+                  :key="route"
+                  @click="setPopularRoute(route)"
+                  class="px-4 py-2 bg-gray-100 hover:bg-blue-100 text-gray-700 rounded-full text-sm transition-colors"
+                >
+                  {{ route }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -121,61 +151,79 @@
     </section>
 
     <!-- Section des résultats -->
-    <section class="py-12">
+    <section class="py-16">
       <div class="container mx-auto px-4">
         <!-- En-tête des résultats -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-12">
           <div>
-            <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-2">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">
               {{ totalTripsCount }} trajet{{ totalTripsCount > 1 ? 's' : '' }} trouvé{{ totalTripsCount > 1 ? 's' : '' }}
             </h2>
             <p class="text-gray-600">
               <span v-if="hasActiveFilters">Résultats filtrés pour vos critères</span>
-              <span v-else>Affichage de {{ paginatedTrips.length }} trajets sur {{ totalTripsCount }}</span>
+              <span v-else>Tous vérifiés par notre système de parrainage</span>
             </p>
           </div>
 
-          <!-- Tri -->
-          <div class="mt-4 md:mt-0">
+          <!-- Tri et filtres -->
+          <div class="mt-4 md:mt-0 flex gap-4">
             <select
               v-model="sortBy"
               @change="sortTrips"
-              class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none"
+              class="px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none"
             >
               <option value="time">Trier par heure</option>
               <option value="price">Trier par prix</option>
               <option value="places">Trier par places disponibles</option>
             </select>
+
+            <button class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-500 transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+              </svg>
+              Filtres avancés
+            </button>
           </div>
         </div>
 
-        <!-- Liste des trajets -->
-        <div class="space-y-4">
+        <!-- Liste des trajets modernisée -->
+        <div class="space-y-6">
           <!-- Loading skeleton -->
           <template v-if="isLoading">
-            <div v-for="n in 5" :key="n" class="bg-white rounded-xl shadow-md p-6 animate-pulse">
-              <div class="flex space-x-4">
-                <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
-                <div class="flex-1 space-y-3">
-                  <div class="h-4 bg-gray-300 rounded w-1/3"></div>
-                  <div class="h-4 bg-gray-200 rounded w-1/2"></div>
-                  <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+            <div v-for="n in 3" :key="n" class="bg-white rounded-2xl shadow-md p-6 animate-pulse">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-3">
+                  <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+                    <div class="space-y-2">
+                      <div class="h-4 bg-gray-300 rounded w-24"></div>
+                      <div class="h-3 bg-gray-200 rounded w-16"></div>
+                    </div>
+                  </div>
                 </div>
-                <div class="w-24 h-8 bg-gray-300 rounded"></div>
+                <div class="lg:col-span-6">
+                  <div class="h-4 bg-gray-300 rounded w-full mb-2"></div>
+                  <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+                </div>
+                <div class="lg:col-span-3">
+                  <div class="h-8 bg-gray-300 rounded w-24 ml-auto"></div>
+                </div>
               </div>
             </div>
           </template>
 
           <!-- Aucun résultat -->
-          <div v-else-if="totalTripsCount === 0 && hasActiveFilters" class="text-center py-12">
-            <svg class="w-24 h-24 mx-auto text-secondary-accent-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-            <h3 class="text-xl font-semibold text-secondary-accent-500 mb-2">Aucun trajet trouvé</h3>
-            <p class="text-gray-500 mb-4">Aucun trajet ne correspond à vos critères de recherche</p>
+          <div v-else-if="totalTripsCount === 0" class="text-center py-16">
+            <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-500 mb-2">Aucun trajet trouvé</h3>
+            <p class="text-gray-400 mb-6">Aucun trajet ne correspond à vos critères de recherche</p>
             <button
               @click="resetFilters"
-              class="bg-secondary-500 text-white font-medium px-6 py-3 rounded-lg hover:bg-secondary-600 transition-colors"
+              class="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold px-6 py-3 rounded-xl hover:from-blue-700 hover:to-green-700 transition-all"
             >
               Voir tous les trajets
             </button>
@@ -189,83 +237,166 @@
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ delay: index * 0.1, duration: 0.3 }"
-            class="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden"
+            class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
           >
             <div class="p-6">
-              <div class="flex flex-col lg:flex-row lg:items-center justify-between space-y-4 lg:space-y-0">
-                <!-- Conducteur et horaires -->
-                <div class="flex items-center space-x-4 flex-1">
-                  <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-primary-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    {{ trip.driver.split(' ').map(n => n[0]).join('') }}
-                  </div>
-
-                  <div class="flex-1">
-                    <div class="flex items-center space-x-2 mb-2">
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Photo conducteur + info -->
+                <div class="lg:col-span-3">
+                  <div class="flex items-center space-x-4">
+                    <div class="relative">
+                      <!-- Placeholder pour photo conducteur depuis Freepik -->
+                      <img
+                        :src="trip.driverImage || '/images/drivers/default-driver.jpg'"
+                        :alt="trip.driver"
+                        class="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-lg"
+                        @error="handleImageError"
+                      />
+                      <!-- Badge de vérification -->
+                      <div v-if="trip.isVerified" class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
                       <h3 class="font-semibold text-gray-800">{{ trip.driver }}</h3>
                       <div class="flex items-center">
                         <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span class="text-sm text-gray-600 ml-1">{{ trip.rating }}</span>
+                        <span class="text-sm text-gray-600 ml-1">{{ trip.rating }} ({{ trip.reviews || 0 }} avis)</span>
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1">{{ trip.carModel || 'Véhicule standard' }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Itinéraire visuel -->
+                <div class="lg:col-span-4">
+                  <div class="flex items-center justify-center">
+                    <div class="text-center">
+                      <div class="font-semibold text-gray-800">{{ trip.departure }}</div>
+                      <div class="text-sm text-gray-500">{{ trip.departureTime }}</div>
+                    </div>
+
+                    <div class="mx-6 flex-1">
+                      <div class="flex items-center">
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <div class="flex-1 h-0.5 bg-gray-300 mx-2 relative">
+                          <!-- Icône voiture au milieu -->
+                          <svg class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM2 9v5a2 2 0 002 2h1a3 3 0 006 0h2a3 3 0 006 0h1a2 2 0 002-2V9H2zm7 6a1 1 0 11-2 0 1 1 0 012 0zm6 0a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        <div class="flex-1 h-0.5 bg-gray-300 mx-2"></div>
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                      </div>
+                      <div class="text-center text-xs text-gray-500 mt-2">
+                        <svg class="inline w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                        {{ trip.duration }}
                       </div>
                     </div>
 
-                    <div class="text-sm text-gray-600">
-                      <span class="font-medium">{{ trip.departureTime }}</span> -
-                      <span class="font-medium">{{ trip.arrivalTime }}</span>
-                      <span class="mx-2">•</span>
-                      <span>{{ trip.duration }}</span>
+                    <div class="text-center">
+                      <div class="font-semibold text-gray-800">{{ trip.arrival }}</div>
+                      <div class="text-sm text-gray-500">{{ trip.arrivalTime }}</div>
                     </div>
                   </div>
                 </div>
 
-                <!-- Itinéraire -->
-                <div class="flex items-center space-x-4 flex-1 justify-center">
+                <!-- Photo voiture + features -->
+                <div class="lg:col-span-2">
                   <div class="text-center">
-                    <div class="text-lg font-semibold text-gray-800">{{ trip.departure }}</div>
-                    <div class="text-sm text-gray-500">{{ trip.departureTime }}</div>
-                  </div>
-
-                  <div class="flex items-center space-x-2 px-4">
-                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <div class="w-16 h-px bg-gray-300"></div>
-                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                    <div class="w-16 h-px bg-gray-300"></div>
-                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                  </div>
-
-                  <div class="text-center">
-                    <div class="text-lg font-semibold text-gray-800">{{ trip.arrival }}</div>
-                    <div class="text-sm text-gray-500">{{ trip.arrivalTime }}</div>
+                    <!-- Placeholder pour photo voiture depuis Freepik -->
+                    <img
+                      :src="trip.carImage || '/images/cars/default-car.jpg'"
+                      :alt="trip.carModel"
+                      class="w-20 h-12 mx-auto rounded-lg object-cover mb-2 shadow-sm"
+                      @error="handleCarImageError"
+                    />
+                    <div class="flex flex-wrap justify-center gap-1">
+                      <span
+                        v-for="(feature, idx) in (trip.features || []).slice(0, 2)"
+                        :key="idx"
+                        class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"
+                      >
+                        {{ feature }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Prix et places -->
-                <div class="flex items-center justify-between lg:justify-end space-x-6">
-                  <div class="text-center">
-                    <div class="text-sm text-gray-500">Places restantes</div>
-                    <div class="font-semibold text-gray-800">{{ trip.remainingPlaces }}/{{ trip.totalPlaces }}</div>
+                <!-- Prix et réservation -->
+                <div class="lg:col-span-3">
+                  <div class="text-right">
+                    <div class="mb-2">
+                      <span class="text-2xl font-bold text-green-600">
+                        {{ trip.price.toLocaleString() }}
+                      </span>
+                      <span class="text-gray-500 text-sm ml-1">XAF</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-3">
+                      <svg class="inline w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+                      </svg>
+                      {{ trip.remainingPlaces }} place{{ trip.remainingPlaces > 1 ? 's' : '' }} restante{{ trip.remainingPlaces > 1 ? 's' : '' }}
+                    </div>
+                    <button
+                      @click="viewTrip(trip)"
+                      :disabled="trip.remainingPlaces === 0"
+                      class="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-green-700 transition-all transform hover:scale-105 shadow-lg disabled:bg-gray-300 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      <span v-if="trip.remainingPlaces > 0">Voir détails</span>
+                      <span v-else>Complet</span>
+                    </button>
                   </div>
-
-                  <div class="text-center">
-                    <div class="text-2xl font-bold text-secondary-600">{{ trip.price.toLocaleString() }}</div>
-                    <div class="text-sm text-gray-500">XAF</div>
-                  </div>
-
-                  <button
-                    @click="viewTrip(trip)"
-                    :disabled="trip.remainingPlaces === 0"
-                    class="bg-secondary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-                  >
-                    <span v-if="trip.remainingPlaces > 0">Réserver</span>
-                    <span v-else>Complet</span>
-                  </button>
                 </div>
               </div>
             </div>
           </Motion>
+        </div>
+
+        <!-- Section sécurité -->
+        <div class="mt-16 bg-gradient-to-r from-blue-50 to-green-50 rounded-2xl p-8">
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">
+              Voyagez en toute sécurité
+            </h3>
+            <p class="text-gray-600 mb-6">
+              Notre système de parrainage garantit que tous nos conducteurs sont recommandés par la communauté
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <div class="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
+                <svg class="w-4 h-4 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm">Conducteurs parrainés</span>
+              </div>
+              <div class="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
+                <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm">Identité vérifiée</span>
+              </div>
+              <div class="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
+                <svg class="w-4 h-4 text-yellow-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span class="text-sm">Évaluations transparentes</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Pagination -->
@@ -274,7 +405,7 @@
             <button
               @click="goToPage(currentPage - 1)"
               :disabled="currentPage === 1"
-              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Précédent
             </button>
@@ -287,8 +418,8 @@
                 :class="[
                   'px-4 py-2 rounded-lg transition-colors',
                   page === currentPage
-                    ? 'bg-secondary-500 text-white'
-                    : 'border border-gray-300 hover:bg-gray-50'
+                    ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white'
+                    : 'border-2 border-gray-300 hover:bg-gray-50'
                 ]"
               >
                 {{ page }}
@@ -299,21 +430,21 @@
             <button
               @click="goToPage(currentPage + 1)"
               :disabled="currentPage === totalPages"
-              class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Suivant
             </button>
           </div>
 
           <!-- Info pagination -->
-          <div class="mt-4 text-right w-full text-gray-600">
+          <div class="mt-4 text-center w-full text-gray-600">
             Page {{ currentPage }} sur {{ totalPages }} • {{ totalTripsCount }} trajets au total
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Modal de détails -->
+    <!-- Modal de détails modernisée -->
     <transition name="modal">
       <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -329,19 +460,33 @@
 
           <!-- Contenu -->
           <div class="p-6" v-if="selectedTrip">
+            <!-- Image de la voiture -->
+            <div class="text-center mb-6">
+              <img
+                :src="selectedTrip.carImage || '/images/cars/default-car.jpg'"
+                :alt="selectedTrip.carModel"
+                class="w-full h-48 object-cover rounded-xl mb-4 shadow-lg"
+                @error="handleCarImageError"
+              />
+            </div>
+
             <!-- Info conducteur -->
-            <div class="flex items-center space-x-4 mb-6 p-4 bg-gray-50 rounded-xl">
-              <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-primary-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                {{ selectedTrip.driver.split(' ').map(n => n[0]).join('') }}
-              </div>
+            <div class="flex items-center space-x-4 mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl">
+              <img
+                :src="selectedTrip.driverImage || '/images/drivers/default-driver.jpg'"
+                :alt="selectedTrip.driver"
+                class="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-lg"
+                @error="handleImageError"
+              />
               <div>
                 <h3 class="font-semibold text-gray-800">{{ selectedTrip.driver }}</h3>
                 <div class="flex items-center">
                   <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  <span class="text-sm text-gray-600 ml-1">{{ selectedTrip.rating }} ({{ selectedTrip.reviews }} avis)</span>
+                  <span class="text-sm text-gray-600 ml-1">{{ selectedTrip.rating }} ({{ selectedTrip.reviews || 0 }} avis)</span>
                 </div>
+                <div class="text-sm text-gray-500">{{ selectedTrip.carModel || 'Véhicule standard' }}</div>
               </div>
             </div>
 
@@ -376,6 +521,20 @@
               </div>
             </div>
 
+            <!-- Équipements -->
+            <div v-if="selectedTrip.features && selectedTrip.features.length" class="mb-6">
+              <h4 class="font-semibold text-gray-800 mb-3">Équipements disponibles</h4>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="feature in selectedTrip.features"
+                  :key="feature"
+                  class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
+                >
+                  {{ feature }}
+                </span>
+              </div>
+            </div>
+
             <!-- Réservation -->
             <div class="border-t pt-6">
               <div class="mb-4">
@@ -386,7 +545,7 @@
                   <button
                     @click="decrementReservation"
                     :disabled="reservationCount <= 1"
-                    class="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="w-10 h-10 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
@@ -396,7 +555,7 @@
                   <button
                     @click="incrementReservation"
                     :disabled="reservationCount >= selectedTrip.remainingPlaces"
-                    class="w-10 h-10 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="w-10 h-10 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
@@ -405,16 +564,16 @@
                 </div>
               </div>
 
-              <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center justify-between mb-6 p-4 bg-gray-50 rounded-xl">
                 <span class="text-lg font-medium">Total:</span>
-                <span class="text-2xl font-bold text-secondary-600">
+                <span class="text-2xl font-bold text-green-600">
                   {{ (selectedTrip.price * reservationCount).toLocaleString() }} XAF
                 </span>
               </div>
 
               <button
                 @click="confirmReservation"
-                class="w-full bg-secondary-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-secondary-600 transition-colors"
+                class="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-green-700 transition-all transform hover:scale-105"
               >
                 Confirmer la réservation
               </button>
@@ -428,11 +587,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import Header from "@public/components/header.vue"
+import Header from "./components/header.vue"
 import Footer from './components/footer.vue'
 import { Motion } from '@motionone/vue'
+import Img from '@/assets/Nouveau dossier/img.png'
 
 // États réactifs
 const searchFilters = ref({
@@ -459,10 +619,18 @@ const cities = [
   'Bertoua', 'Ngaoundéré', 'Bamenda', 'Limbé', 'Ebolowa'
 ]
 
+const popularRoutes = [
+  'Yaoundé → Douala',
+  'Douala → Bafoussam',
+  'Yaoundé → Bafoussam',
+  'Bamenda → Douala'
+]
+
 const allTrips = ref([
   {
     id: 1,
     driver: 'Jean Martin',
+    driverImage: Img, // '/images/drivers/jean-martin.jpg',
     rating: 4.8,
     reviews: 25,
     departure: 'Yaoundé',
@@ -472,12 +640,17 @@ const allTrips = ref([
     duration: '3h 30min',
     date: '2025-08-04',
     price: 3500,
+    carModel: 'Toyota Camry',
+    carImage: Img, // '/images/cars/toyota-camry.jpg',
     totalPlaces: 4,
-    remainingPlaces: 2
+    remainingPlaces: 2,
+    isVerified: true,
+    features: ['Climatisation', 'WiFi', 'Musique', 'Bagages OK']
   },
   {
     id: 2,
     driver: 'Marie Kouna',
+    driverImage: Img, // '/images/drivers/marie-kouna.jpg',
     rating: 4.9,
     reviews: 42,
     departure: 'Douala',
@@ -487,12 +660,17 @@ const allTrips = ref([
     duration: '3h 30min',
     date: '2025-08-04',
     price: 4000,
+    carModel: 'Honda Accord',
+    carImage: Img, // '/images/cars/honda-accord.jpg',
     totalPlaces: 4,
-    remainingPlaces: 3
+    remainingPlaces: 3,
+    isVerified: true,
+    features: ['Climatisation', 'Bagages OK', 'Non-fumeur']
   },
   {
     id: 3,
     driver: 'Paul Ngono',
+    driverImage: Img, // '/images/drivers/paul-ngono.jpg',
     rating: 4.7,
     reviews: 18,
     departure: 'Yaoundé',
@@ -502,190 +680,14 @@ const allTrips = ref([
     duration: '3h 15min',
     date: '2025-08-05',
     price: 3800,
+    carModel: 'Nissan Sentra',
+    carImage: Img, // '/images/cars/nissan-sentra.jpg',
     totalPlaces: 5,
-    remainingPlaces: 1
-  },
-  {
-    id: 4,
-    driver: 'Sophie Talla',
-    rating: 5.0,
-    reviews: 65,
-    departure: 'Bamenda',
-    arrival: 'Douala',
-    departureTime: '07:30',
-    arrivalTime: '12:00',
-    duration: '4h 30min',
-    date: '2025-08-04',
-    price: 5500,
-    totalPlaces: 4,
-    remainingPlaces: 4
-  },
-  {
-    id: 5,
-    driver: 'Ahmed Bello',
-    rating: 4.6,
-    reviews: 31,
-    departure: 'Garoua',
-    arrival: 'Maroua',
-    departureTime: '09:30',
-    arrivalTime: '12:30',
-    duration: '3h 00min',
-    date: '2025-08-05',
-    price: 2500,
-    totalPlaces: 6,
-    remainingPlaces: 5
-  },
-  {
-    id: 6,
-    driver: 'Fatima Alhadji',
-    rating: 4.8,
-    reviews: 22,
-    departure: 'Douala',
-    arrival: 'Limbé',
-    departureTime: '16:00',
-    arrivalTime: '17:30',
-    duration: '1h 30min',
-    date: '2025-08-04',
-    price: 1500,
-    totalPlaces: 4,
-    remainingPlaces: 3
-  },
-  {
-    id: 7,
-    driver: 'Gabriel Tchoua',
-    rating: 4.5,
-    reviews: 15,
-    departure: 'Yaoundé',
-    arrival: 'Ebolowa',
-    departureTime: '10:00',
-    arrivalTime: '12:30',
-    duration: '2h 30min',
-    date: '2025-08-05',
-    price: 2800,
-    totalPlaces: 5,
-    remainingPlaces: 0
-  },
-  {
-    id: 8,
-    driver: 'Aminata Diallo',
-    rating: 4.9,
-    reviews: 38,
-    departure: 'Bamenda',
-    arrival: 'Yaoundé',
-    departureTime: '05:30',
-    arrivalTime: '11:00',
-    duration: '5h 30min',
-    date: '2025-08-06',
-    price: 6500,
-    totalPlaces: 4,
-    remainingPlaces: 2
-  },
-  // Ajouter plus de trajets pour simuler une grande base de données
-  {
-    id: 9,
-    driver: 'Ernest Manga',
-    rating: 4.3,
-    reviews: 12,
-    departure: 'Yaoundé',
-    arrival: 'Bertoua',
-    departureTime: '07:00',
-    arrivalTime: '11:30',
-    duration: '4h 30min',
-    date: '2025-08-04',
-    price: 4500,
-    totalPlaces: 4,
-    remainingPlaces: 3
-  },
-  {
-    id: 10,
-    driver: 'Chantal Mbia',
-    rating: 4.7,
-    reviews: 28,
-    departure: 'Douala',
-    arrival: 'Yaoundé',
-    departureTime: '15:00',
-    arrivalTime: '18:30',
-    duration: '3h 30min',
-    date: '2025-08-04',
-    price: 3500,
-    totalPlaces: 5,
-    remainingPlaces: 2
-  },
-  {
-    id: 11,
-    driver: 'Robert Ekani',
-    rating: 4.6,
-    reviews: 19,
-    departure: 'Bafoussam',
-    arrival: 'Douala',
-    departureTime: '06:30',
-    arrivalTime: '10:00',
-    duration: '3h 30min',
-    date: '2025-08-05',
-    price: 4000,
-    totalPlaces: 4,
-    remainingPlaces: 4
-  },
-  {
-    id: 12,
-    driver: 'Sylvie Nkomo',
-    rating: 4.8,
-    reviews: 34,
-    departure: 'Ngaoundéré',
-    arrival: 'Garoua',
-    departureTime: '08:00',
-    arrivalTime: '11:00',
-    duration: '3h 00min',
-    date: '2025-08-06',
-    price: 3000,
-    totalPlaces: 6,
-    remainingPlaces: 5
-  },
-  {
-    id: 13,
-    driver: 'Michel Biya',
-    rating: 4.4,
-    reviews: 16,
-    departure: 'Ebolowa',
-    arrival: 'Yaoundé',
-    departureTime: '12:00',
-    arrivalTime: '14:30',
-    duration: '2h 30min',
-    date: '2025-08-04',
-    price: 2800,
-    totalPlaces: 5,
-    remainingPlaces: 1
-  },
-  {
-    id: 14,
-    driver: 'Nadège Fokou',
-    rating: 4.9,
-    reviews: 41,
-    departure: 'Limbé',
-    arrival: 'Douala',
-    departureTime: '18:00',
-    arrivalTime: '19:30',
-    duration: '1h 30min',
-    date: '2025-08-05',
-    price: 1500,
-    totalPlaces: 4,
-    remainingPlaces: 3
-  },
-  {
-    id: 15,
-    driver: 'David Kameni',
-    rating: 4.5,
-    reviews: 23,
-    departure: 'Maroua',
-    arrival: 'Garoua',
-    departureTime: '14:00',
-    arrivalTime: '17:00',
-    duration: '3h 00min',
-    date: '2025-08-06',
-    price: 2500,
-    totalPlaces: 6,
-    remainingPlaces: 4
+    remainingPlaces: 1,
+    isVerified: true,
+    features: ['Climatisation', 'Musique', 'Bagages OK']
   }
+  // ... autres trajets
 ])
 
 // Propriétés calculées
@@ -697,22 +699,18 @@ const today = computed(() => {
 const filteredTrips = computed(() => {
   let trips = [...allTrips.value]
 
-  // Filtrer par départ
   if (searchFilters.value.departure) {
     trips = trips.filter(trip => trip.departure === searchFilters.value.departure)
   }
 
-  // Filtrer par arrivée
   if (searchFilters.value.arrival) {
     trips = trips.filter(trip => trip.arrival === searchFilters.value.arrival)
   }
 
-  // Filtrer par date
   if (searchFilters.value.date) {
     trips = trips.filter(trip => trip.date === searchFilters.value.date)
   }
 
-  // Filtrer par nombre de places disponibles
   trips = trips.filter(trip => trip.remainingPlaces >= searchFilters.value.passengers)
 
   return trips
@@ -733,9 +731,22 @@ const hasActiveFilters = computed(() => {
     searchFilters.value.passengers > 1
 })
 
-const totalTrips = computed(() => allTrips.value.length)
+const totalTrips = computed(() => allTrips.value.length);
+const statistiques = ref([
+  {
+    title: totalTrips,
+    description: 'Trajets actifs',
+  },
+  {
+    title: '98%',
+    description: 'Satisfaction',
+  },
+  {
+    title: '15,000+',
+    description: 'Utilisateurs actifs',
+  }
+])
 
-// Calcul des pages visibles pour la pagination
 const visiblePages = computed(() => {
   const total = Math.ceil(totalTripsCount.value / tripsPerPage.value)
   totalPages.value = total
@@ -758,7 +769,6 @@ const visiblePages = computed(() => {
 
 // Méthodes
 const filterTrips = () => {
-  // Réinitialiser à la page 1 lors d'un nouveau filtrage
   currentPage.value = 1
   console.log('Filtres appliqués:', searchFilters.value)
 }
@@ -766,8 +776,7 @@ const filterTrips = () => {
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
-    // Scroll vers le haut de la section
-    document.querySelector('.py-12').scrollIntoView({ behavior: 'smooth' })
+    document.querySelector('.py-16').scrollIntoView({ behavior: 'smooth' })
   }
 }
 
@@ -794,6 +803,13 @@ const resetFilters = () => {
     passengers: 1
   }
   currentPage.value = 1
+}
+
+const setPopularRoute = (route) => {
+  const [departure, arrival] = route.split(' → ')
+  searchFilters.value.departure = departure
+  searchFilters.value.arrival = arrival
+  filterTrips()
 }
 
 const incrementPassengers = () => {
@@ -833,13 +849,11 @@ const decrementReservation = () => {
 }
 
 const confirmReservation = () => {
-  // Ici, vous pouvez implémenter la logique de réservation
   alert(`Réservation confirmée pour ${reservationCount.value} place(s) sur le trajet ${selectedTrip.value.departure} → ${selectedTrip.value.arrival}`)
 
   // Mettre à jour les places disponibles
   selectedTrip.value.remainingPlaces -= reservationCount.value
 
-  // Mettre à jour dans la liste principale
   const tripIndex = allTrips.value.findIndex(trip => trip.id === selectedTrip.value.id)
   if (tripIndex !== -1) {
     allTrips.value[tripIndex].remainingPlaces = selectedTrip.value.remainingPlaces
@@ -848,15 +862,20 @@ const confirmReservation = () => {
   closeModal()
 }
 
+// Gestion des erreurs d'images
+const handleImageError = (event) => {
+  event.target.src = '/images/drivers/default-avatar.png'
+}
+
+const handleCarImageError = (event) => {
+  event.target.src = '/images/cars/default-car.png'
+}
+
 // Cycle de vie
 onMounted(() => {
-  // Simuler le chargement initial des trajets
   setTimeout(() => {
     isLoading.value = false
-  }, 1500)
-
-  // Ne pas définir de date par défaut pour montrer tous les trajets
-  // searchFilters.value.date = today.value
+  }, 1000)
 })
 </script>
 
@@ -911,32 +930,12 @@ button:disabled {
 }
 
 /* Effet hover sur les cartes de trajets */
-.trip-card {
-  transition: all 0.3s ease;
-}
-
-.trip-card:hover {
+.group:hover {
   transform: translateY(-2px);
 }
 
 /* Style pour les inputs focus */
 input:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Animation pour les éléments qui apparaissent */
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>

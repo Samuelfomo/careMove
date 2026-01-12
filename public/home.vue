@@ -280,7 +280,7 @@ const selectProposition = (proposition) => {
     <Header />
 
     <!-- Hero Section -->
-    <section ref="heroRef" class="relative bg-primary-700 from-primary-900 via-primary-800 to-primary-700 overflow-hidden pt-20">
+    <section ref="heroRef" class="relative bg-primary-900 overflow-hidden pt-20">
       <!-- Background Effects -->
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-black/20"></div>

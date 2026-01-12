@@ -8,21 +8,7 @@
         <!-- Espace réservé pour le logo -->
         <div class="w-28 h-28 invisible"></div>
       </div>
-      <div class="lg:flex 2xl:grid justify-between items-center space-x-4 grid-cols-2 hidden w-full">
-        <div class="flex items-center justify-center space-x-10 text-primary text-base">
-<!--          <span class="cursor-pointer">{{ $t('nav.home') }}</span>-->
-          <span class="cursor-pointer">{{ $t('nav.reservation') }}</span>
-        </div>
-        <div class="flex items-center justify-end space-x-10">
-<!--          <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md pl-4" @click="router.push('/searchTrip')">-->
-<!--            <IconSearch stroke="{2}" />-->
-<!--            <input-->
-<!--              type="text"-->
-<!--              :placeholder="$t('nav.search')"-->
-<!--              class="bg-white text-primary p-1 rounded-md focus:outline-none focus:border-none max-w-[8rem] placeholder:text-primary-900"-->
-<!--            />-->
-<!--          </div>-->
-
+      <div class="lg:flex justify-end space-x-10 hidden w-full">
           <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 pl-4 pr-8 cursor-pointer">
             <IconSearch stroke="{2}" />
             <span class="text-nowrap" @click="router.push('/searchTrip')">{{ $t('nav.search') }}</span>
@@ -118,7 +104,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
 
       <!-- Bouton pour afficher le menu mobile -->

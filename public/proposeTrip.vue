@@ -105,7 +105,7 @@ onMounted(() => {
           transition="{ duration: 0.5, ease: 'ease-out' }"
           class="w-full max-w-xl rounded-xl overflow-hidden shadow-xl"
         >
-          <div class="bg-primary-800 text-white px-6 py-6 ">
+          <div class="bg-primary-800 text-white px-6 py-6">
             <h2 class="text-3xl font-bold text-center">Publier un trajet</h2>
             <p class="text-sm mt-1 text-center">Vous avez un véhicule ?</p>
           </div>
