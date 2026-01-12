@@ -7,6 +7,7 @@ import Register2 from "@public/QuickRegistration.vue";
 import ProposeTrip from '../../public/proposeTrip.vue';
 import searchTrip from '../../public/searchTrip.vue';
 import Profile from '../../public/profile.vue';
+import Dashboard from '../../public/app/components/dashboard.vue';
 const routes = [
 
   {
@@ -48,6 +49,11 @@ const routes = [
     path: '/profile',
     name:'profile',
     component: Profile
+  },
+  {
+    path: '/dashboard',
+    name:'dashboard',
+    component: Dashboard
   }
 ];
 

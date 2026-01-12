@@ -1,9 +1,14 @@
 <template>
   <div class="min-h-screen flex flex-col mx-auto">
-    <Header />
+<!--    <Header />-->
+<!--    <header class="fixed w-full z-50 flex flex-col">-->
+      <div class="bg-white p-5 lg:px-14 flex justify-between items-center w-full flex-row shadow-sm h-16">
+
+      </div>
+<!--    </header>-->
 
     <!-- Main Content -->
-    <main class="flex-1 flex items-center min-h-screen justify-center px-4 pb-10 bg-gradient-to-tr from-secondary-400 to-secondary-400 via-primary/90 overflow-hidden relative">
+    <main class="flex-1 flex items-center min-h-full justify-center px-4 pb-10 bg-gradient-to-tr from-secondary-400 to-secondary-400 via-primary/90 overflow-hidden relative">
 
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-primary-900/70"></div>
@@ -58,6 +63,7 @@
                  focus:ring-secondary focus:border-transparent transition-all duration-200 placeholder:text-primary text-secondary font-medium"
                   :class="{ 'border-secondary-accent-600 bg-secondary-accent-100': requestError }"
                 />
+                <div v-if="requestError" class="text-error text-sm mt-1">{{ requestError }}</div>
               </div>
 
               <div class="text-right">
@@ -313,7 +319,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import Header from "@public/components/header.vue";
-import Voyage from "@/assets/images/logo.svg";
+// import Voyage from "@/assets/images/logo.svg";
 
 // État réactif - Vue par défaut changée de 'token' à 'request'
 const currentView = ref('request') // 'request', 'token', 'email'
@@ -341,9 +347,9 @@ const requestError = ref('')
 const emailError = ref('')
 
 // Références pour les animations
-const tokenForm = ref(null)
-const requestForm = ref(null)
-const emailForm = ref(null)
+const tokenForm = ref(null | '')
+const requestForm = ref(null | '')
+const emailForm = ref(null | '')
 
 // Méthodes
 const switchView = async (view) => {
@@ -395,13 +401,14 @@ const clearErrors = () => {
 const requestToken = async () => {
   requestError.value = ''
 
-  if (!requestData.value.email.trim()) {
+  if (!requestData.value.email.toString().trim()) {
     requestError.value = 'L\'email est requis'
     return
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(requestData.value.email)) {
+    // setTimeout(() => requestError.value = 'Format d\'email invalide', 100)
     requestError.value = 'Format d\'email invalide'
     return
   }
@@ -416,8 +423,8 @@ const requestToken = async () => {
     console.log('Demande de token pour:', requestData.value.email)
 
     // Afficher message de succès et rediriger vers la page de connexion par token
-    alert('Token envoyé par email !')
-    switchView('token')
+    // alert('Token envoyé par email !')
+    await switchView('token')
   } catch (error) {
     requestError.value = 'Erreur lors de l\'envoi du token'
   } finally {
@@ -428,7 +435,7 @@ const requestToken = async () => {
 const loginWithToken = async () => {
   tokenError.value = ''
 
-  if (!tokenData.value.token.trim()) {
+  if (!tokenData.value.token.toString().trim()) {
     tokenError.value = 'Le token est requis'
     return
   }
@@ -453,7 +460,7 @@ const loginWithToken = async () => {
 const loginWithEmail = async () => {
   emailError.value = ''
 
-  if (!emailData.value.email.trim() || !emailData.value.password.trim()) {
+  if (!emailData.value.email.toString().trim() || !emailData.value.password.toString().trim()) {
     emailError.value = 'Email et mot de passe requis'
     return
   }

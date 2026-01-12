@@ -283,7 +283,7 @@ const selectProposition = (proposition) => {
     <section ref="heroRef" class="relative bg-primary-900 overflow-hidden pt-20">
       <!-- Background Effects -->
       <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="absolute inset-0 bg-white/20"></div>
         <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
 
         <!-- Floating Elements -->

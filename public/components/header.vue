@@ -8,7 +8,7 @@
         <!-- Espace réservé pour le logo -->
         <div class="w-28 h-28 invisible"></div>
       </div>
-      <div class="lg:flex justify-end space-x-10 hidden w-full">
+      <div class="lg:flex justify-end space-x-10 hidden w-full text-primary/60">
           <div class="flex justify-between items-center space-x-2 border border-secondary-400 rounded-md py-1 pl-4 pr-8 cursor-pointer">
             <IconSearch stroke="{2}" />
             <span class="text-nowrap" @click="router.push('/searchTrip')">{{ $t('nav.search') }}</span>
