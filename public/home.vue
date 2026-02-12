@@ -6,6 +6,7 @@ import Header from "@public/components/header.vue"
 import Voyage from "@/assets/images/voiture.jpg"
 import Footer from "@public/components/footer.vue"
 import { useI18n } from 'vue-i18n'
+import { IconChevronRight } from '@tabler/icons-vue';
 
 const { t } = useI18n()
 
@@ -280,6 +281,37 @@ const selectProposition = (proposition) => {
     <Header />
 
     <!-- Hero Section -->
+    <section
+      class="relative lg:h-[80vh] h-screen flex items-center justify-center text-white text-center bg-cover bg-center"
+      style="background-image: url('../src/assets/images/friend/driver.png');"
+    >
+
+      <!-- Overlay sombre -->
+      <div class="absolute inset-0 bg-black/30"></div>
+
+      <!-- Contenu -->
+      <div class="relative z-10  w-full px-6 container mx-auto flex flex-col items-start justify-start space-y-5 text-center text-white md:space-y-0 md:text-left">
+        <h1 class="text-5xl md:text-6xl font-semibold lg:mb-6 leading-tight max-w-3xl">
+          Voyagez Ensemble, Roulez Intelligent
+        </h1>
+        <p class="text-lg md:text-xl lg:pb-8 text-gray-200">
+          Une nouvelle manière simple, économique et sécurisée de se déplacer.
+        </p>
+        <div class="flex flex-col lg:flex-row justify-center lg:justify-start items-center space-y-2 lg:space-y-0 lg:gap-x-2 w-full lg:max-w-sm">
+          <button class="px-8 py-3 flex bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition duration-300">
+            Watch video
+            <IconChevronRight stroke={2} />
+          </button>
+
+          <button class="px-8 py-3 flex bg-transparent border border-white text-white rounded-full font-semibold hover:bg-white/15 transition duration-300">
+            Découvrir
+            <IconChevronRight stroke={2} />
+          </button>
+        </div>
+
+      </div>
+    </section>
+
     <section ref="heroRef" class="relative bg-primary-900 overflow-hidden pt-20">
       <!-- Background Effects -->
       <div class="absolute inset-0">
@@ -291,7 +323,6 @@ const selectProposition = (proposition) => {
         <div class="absolute bottom-32 right-16 w-32 h-32 bg-primary-accent/20 rounded-full blur-2xl animate-bounce-light"></div>
         <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-secondary-accent/30 rounded-full blur-lg animate-pulse"></div>
       </div>
-
       <div class="relative z-10 container mx-auto px-4 py-20 min-h-screen flex flex-col justify-center">
         <!-- Hero Content -->
         <div class="text-center mb-12">

@@ -15,7 +15,6 @@ export default [
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
-  
   {
     ...pluginCypress.configs.recommended,
     files: [

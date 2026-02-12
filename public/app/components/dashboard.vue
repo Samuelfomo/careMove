@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div @mouseover="view = false"
        @mouseleave="view = true"
        class=" sidebar z-50 h-screen bg-primary-800 text-white w-16 fixed left-0 top-0 lg:flex hidden flex-col justify-between transition-all duration-300 ease-in-out hover:w-64 group overflow-hidden"
@@ -72,6 +73,7 @@
 <script setup lang="ts">
 import {h, ref, computed} from 'vue';
 import {useRouter} from "vue-router";
+import Header from "@public/app/components/header.vue";
 // import userLoginStore from "@/stores/userStore";
 // import {storeToRefs} from "pinia";
 // import 'animate.css';
