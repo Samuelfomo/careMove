@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from "@public/home.vue";
 import Auth from "@public/auth.vue";
+import Auth2 from "@public/login/auth2.vue";
 import Parrain from "@public/sponsorshipForm.vue";
 import Register from "@public/registrationForm.vue";
 import Register2 from "@public/QuickRegistration.vue";
@@ -19,6 +20,11 @@ const routes = [
     path: '/connexion',
     name: 'connexion',
     component: Auth
+  },
+  {
+    path: '/connexion2',
+    name: 'connexion2',
+    component: Auth2
   },
   {
     path: '/parain',

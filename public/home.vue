@@ -282,7 +282,8 @@ const selectProposition = (proposition) => {
 
     <!-- Hero Section -->
     <section
-      class="relative lg:h-[80vh] h-screen flex items-center justify-center text-white text-center bg-cover bg-center"
+      ref="heroRef"
+      class="relative min-h-screen flex items-center justify-center text-white text-center bg-cover bg-center"
       style="background-image: url('../src/assets/images/friend/driver.png');"
     >
 
@@ -291,109 +292,97 @@ const selectProposition = (proposition) => {
 
       <!-- Contenu -->
       <div class="relative z-10  w-full px-6 container mx-auto flex flex-col items-start justify-start space-y-5 text-center text-white md:space-y-0 md:text-left">
-        <h1 class="text-5xl md:text-6xl font-semibold lg:mb-6 leading-tight max-w-3xl">
+        <h1 class="hero-title text-5xl md:text-6xl font-semibold lg:mb-6 leading-tight max-w-3xl">
           Voyagez Ensemble, Roulez Intelligent
         </h1>
-        <p class="text-lg md:text-xl lg:pb-8 text-gray-200">
+        <p class="hero-subtitle text-lg md:text-xl lg:pb-8 text-gray-200">
           Une nouvelle manière simple, économique et sécurisée de se déplacer.
         </p>
-        <div class="flex flex-col lg:flex-row justify-center lg:justify-start items-center space-y-2 lg:space-y-0 lg:gap-x-2 w-full lg:max-w-sm">
+        <div class="hero-description flex flex-col lg:flex-row justify-center lg:justify-start items-center space-y-2 lg:space-y-0 lg:gap-x-2 w-full lg:max-w-sm">
           <button class="px-8 py-3 flex bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition duration-300">
-            Watch video
-            <IconChevronRight stroke={2} />
-          </button>
-
-          <button class="px-8 py-3 flex bg-transparent border border-white text-white rounded-full font-semibold hover:bg-white/15 transition duration-300">
             Découvrir
             <IconChevronRight stroke={2} />
+          </button>
+          <button class="px-8 py-3 bg-transparent border border-white text-white rounded-full font-semibold hover:bg-white/15 transition duration-300 flex justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+            </svg>
+            <span>Voir la démo</span>
           </button>
         </div>
 
       </div>
     </section>
 
-    <section ref="heroRef" class="relative bg-primary-900 overflow-hidden pt-20">
-      <!-- Background Effects -->
-      <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-white/20"></div>
-        <img :src="Voyage" alt="voyage en voiture" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
-
-        <!-- Floating Elements -->
-        <div class="absolute top-20 left-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-pulse"></div>
-        <div class="absolute bottom-32 right-16 w-32 h-32 bg-primary-accent/20 rounded-full blur-2xl animate-bounce-light"></div>
-        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-secondary-accent/30 rounded-full blur-lg animate-pulse"></div>
-      </div>
-      <div class="relative z-10 container mx-auto px-4 py-20 min-h-screen flex flex-col justify-center">
-        <!-- Hero Content -->
-        <div class="text-center mb-12">
-          <h1 class="hero-title text-5xl md:text-7xl font-montserrat font-bold text-white mb-6 leading-tight">
-            {{ t('home.title') }}
-            <span class="text-primary-accent italic">?</span>
-          </h1>
-          <p class="hero-subtitle text-2xl md:text-3xl text-gray-200 mb-4 font-light">
-            {{ t('home.subtitle') }}
-          </p>
-          <p class="hero-description text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            {{ t('home.description') }}
-          </p>
-        </div>
-
-        <!-- Search Form -->
-        <div ref="searchFormRef" class="w-full max-w-6xl mx-auto">
-          <div class="bg-white backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-white/20">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <!-- Departure -->
-              <div class="relative group">
-                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-600 group-focus-within:text-secondary-500 transition-colors">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  :placeholder="t('home.departureAddress')"
-                  class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all duration-300 text-lg"
-                />
+    <!-- main section -->
+    <section class="min-h-screen overflow-hidden">
+      <div class=" w-full h-full inset-0 p-4 lg:max-w-7xl mx-auto">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-primary text-center py-4">Lorem Ipsum Generator</h1>
+        <div class="flex flex-col space-y-4 py-4">
+          <div class="grid md:grid-cols-2 grid-cols-1 h-[50vh] container mx-auto">
+            <div class="bg-[url('../src/assets/images/fam/img.png')] bg-cover bg-center shadow-lg cursor-pointer">
+            </div>
+            <div class="flex flex-col justify-center items-start bg-neutral-100 p-10 space-y-2">
+              <span class="text-md font-semibold text-neutral-500/90">Generator</span>
+              <span class="text-lg font-bold ">
+                Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                Dolor sit amet consectetur adipiscing elit quisque faucibus.
+              </span>
+              <span class="text-sm font-medium">
+                Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                Quisque faucibus ex sapien vitae pellentesque sem placerat.
+                In id cursus mi pretium tellus duis convallis.
+              </span>
+              <span class="text-lg font-medium text-secondary-500 cursor-pointer">
+                  Learn more
+                </span>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 space-x-4 h-[50vh] container mx-auto">
+            <div class="h-full grid grid-cols-1 shadow-md">
+              <img src="../src/assets/images/fam/img.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <div class="flex flex-col p-4">
+                <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
+                <span class="text-lg font-semibold">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
+                </span>
+                <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
+                  Learn more
+                </span>
               </div>
-
-              <!-- Destination -->
-              <div class="relative group">
-                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-600 group-focus-within:text-secondary-500 transition-colors">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  :placeholder="t('home.destinationAddress')"
-                  class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all duration-300 text-lg"
-                />
+            </div>
+            <div class="h-full grid grid-cols-1 shadow-md">
+              <img src="../src/assets/images/fam/img_1.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <div class="flex flex-col p-4">
+                <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
+                <span class="text-lg font-semibold">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
+                </span>
+                <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
+                  Learn more
+                </span>
               </div>
-
-              <!-- Date -->
-              <div class="relative group">
-                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary-600 group-focus-within:text-secondary-500 transition-colors">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <input
-                  type="date"
-                  class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 outline-none transition-all duration-300 text-lg"
-                />
+            </div>
+            <div class="h-full grid grid-cols-1 shadow-md">
+              <img src="../src/assets/images/fam/img_2.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <div class="flex flex-col p-4">
+                <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
+                <span class="text-lg font-semibold">
+                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
+                </span>
+                <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
+                  Learn more
+                </span>
               </div>
-
-              <!-- Search Button -->
-              <button class="bg-gradient-to-r from-secondary-600 to-secondary-500 hover:from-secondary-700 hover:to-secondary-600 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 text-lg">
-                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                </svg>
-                {{ t('home.search') }}
-              </button>
             </div>
           </div>
         </div>
+
       </div>
+      <div class=" w-full inset-0  bg-gradient-to-r from-primary-900 to-primary-800 opacity-50 py-10">
+        <div class="mx-auto container p-10 bg-red-400"></div>
+      </div>
+
     </section>
 
     <!-- Propositions de voyage (Scroll horizontal) -->

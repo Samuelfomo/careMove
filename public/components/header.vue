@@ -85,7 +85,7 @@
           <!-- Menu utilisateur -->
           <div class="relative">
             <div
-              class="flex justify-between items-center space-x-2 bg-primary-accent-400 rounded-full py-1 px-4 text-primary cursor-pointer hover:bg-primary-accent-300 transition-colors text-nowrap"
+              class="flex justify-between items-center space-x-2 bg-secondary rounded-full py-1 px-4 text-white cursor-pointer hover:bg-secondary-500 transition-colors text-nowrap"
               @click="toggleUserModal"
               ref="userMenuTrigger"
             >
