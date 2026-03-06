@@ -3,7 +3,6 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Header from "@public/components/header.vue"
-import Voyage from "@/assets/images/voiture.jpg"
 import Footer from "@public/components/footer.vue"
 import { useI18n } from 'vue-i18n'
 import { IconChevronRight } from '@tabler/icons-vue';
@@ -28,7 +27,7 @@ const travelPropositions = ref([
     driver: 'Jean M.',
     seats: 3,
     rating: 4.8,
-    image: '../src/assets/images/bg1.jpg'
+    image: '@/assets/images/bg1.jpg'
   },
   {
     id: 2,
@@ -40,7 +39,7 @@ const travelPropositions = ref([
     driver: 'Marie K.',
     seats: 2,
     rating: 4.9,
-    image: '../src/assets/images/bg.jpg'
+    image: '@/assets/images/bg.jpg'
   },
   {
     id: 3,
@@ -52,7 +51,7 @@ const travelPropositions = ref([
     driver: 'Paul N.',
     seats: 4,
     rating: 4.7,
-    image: '../src/assets/images/bg2.jpg'
+    image: '@/assets/images/bg2.jpg'
   },
   {
     id: 4,
@@ -64,7 +63,7 @@ const travelPropositions = ref([
     driver: 'Sophie T.',
     seats: 1,
     rating: 5.0,
-    image: '../src/assets/images/bg3.jpg'
+    image: '@/assets/images/bg3.jpg'
   },
   {
     id: 5,
@@ -76,7 +75,7 @@ const travelPropositions = ref([
     driver: 'Ahmed B.',
     seats: 3,
     rating: 4.6,
-    image: '../src/assets/images/bg4.jpg'
+    image: '@/assets/images/bg4.jpg'
   }
 ])
 
@@ -283,8 +282,7 @@ const selectProposition = (proposition) => {
     <!-- Hero Section -->
     <section
       ref="heroRef"
-      class="relative min-h-screen flex items-center justify-center text-white text-center bg-cover bg-center"
-      style="background-image: url('../src/assets/images/friend/driver.png');"
+      class="relative min-h-screen flex items-center justify-center text-white text-center bg-cover bg-center bg-[url('@/assets/images/friend/driver.png')]"
     >
 
       <!-- Overlay sombre -->
@@ -320,7 +318,7 @@ const selectProposition = (proposition) => {
           <h1 class="text-3xl md:text-4xl lg:text-5xl font-primary text-center py-4">Lorem Ipsum Generator</h1>
         <div class="flex flex-col space-y-4 py-4">
           <div class="grid md:grid-cols-2 grid-cols-1 h-[50vh] container mx-auto">
-            <div class="bg-[url('../src/assets/images/fam/img.png')] bg-cover bg-center shadow-lg cursor-pointer">
+            <div class="bg-[url('@/assets/images/fam/img.png')] bg-cover bg-center shadow-lg cursor-pointer">
             </div>
             <div class="flex flex-col justify-center items-start bg-neutral-100 p-10 space-y-2">
               <span class="text-md font-semibold text-neutral-500/90">Generator</span>
@@ -340,7 +338,7 @@ const selectProposition = (proposition) => {
           </div>
           <div class="grid grid-cols-3 space-x-4 h-[50vh] container mx-auto">
             <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="../src/assets/images/fam/img.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <img src="@/assets/images/fam/img.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">
@@ -352,7 +350,7 @@ const selectProposition = (proposition) => {
               </div>
             </div>
             <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="../src/assets/images/fam/img_1.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <img src="@/assets/images/fam/img_1.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">
@@ -364,7 +362,7 @@ const selectProposition = (proposition) => {
               </div>
             </div>
             <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="../src/assets/images/fam/img_2.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+              <img src="@/assets/images/fam/img_2.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">

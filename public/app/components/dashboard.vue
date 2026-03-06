@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import {h, ref, computed} from 'vue';
 import {useRouter} from "vue-router";
-import Header from "@public/app/components/header.vue";
+import Header from "./header.vue";
 // import userLoginStore from "@/stores/userStore";
 // import {storeToRefs} from "pinia";
 // import 'animate.css';
@@ -86,7 +86,7 @@ import Header from "@public/app/components/header.vue";
 const router = useRouter();
 const view = ref(true);
 // Création des composants d'icônes
-const HomeIcon = (props) => h('svg', {
+const HomeIcon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   fill: 'none',
   viewBox: '0 0 24 24',
@@ -102,7 +102,7 @@ const HomeIcon = (props) => h('svg', {
   })
 ]);
 
-const Activity = (props) => h('svg', {
+const Activity = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -125,7 +125,7 @@ const Activity = (props) => h('svg', {
   }),
 ]);
 
-const Formulas = (props) => h('svg', {
+const Formulas = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -160,7 +160,7 @@ const Formulas = (props) => h('svg', {
   }),
 ]);
 
-const Partners = (props) => h('svg', {
+const Partners = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -195,7 +195,7 @@ const Partners = (props) => h('svg', {
   }),
 ]);
 
-const Lexicon = (props) => h('svg', {
+const Lexicon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -233,7 +233,7 @@ const Lexicon = (props) => h('svg', {
   }),
 ]);
 
-const ChartIcon = (props) => h('svg', {
+const ChartIcon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   fill: 'none',
   viewBox: '0 0 24 24',
@@ -249,7 +249,7 @@ const ChartIcon = (props) => h('svg', {
   })
 ]);
 
-const DocsIcon = (props) => h('svg', {
+const DocsIcon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   fill: 'none',
   viewBox: '0 0 24 24',
@@ -265,7 +265,7 @@ const DocsIcon = (props) => h('svg', {
   })
 ]);
 
-const SettingsIcon = (props) => h('svg', {
+const SettingsIcon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   fill: 'none',
   viewBox: '0 0 24 24',
@@ -286,7 +286,7 @@ const SettingsIcon = (props) => h('svg', {
   })
 ]);
 
-const LogoutIcon = (props) => h('svg', {
+const LogoutIcon = (props: any) => h('svg', {
   xmlns: 'http://www.w3.org/2000/svg',
   fill: 'none',
   viewBox: '0 0 24 24',
@@ -317,7 +317,8 @@ const configItems = [
 ];
 
 const filteredMenus = computed(() => {
-  return menuItems.filter(menu => menu.roles.includes('MANAGER'));
+  const manager = "MANAGER";
+  return menuItems.filter(menu => menu.roles.includes(manager));
   // return menuItems.filter(menu => menu.roles.includes(profil.value.toString().toUpperCase()));
 });
 

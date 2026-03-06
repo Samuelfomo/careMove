@@ -215,7 +215,7 @@
 import { ref, onMounted, nextTick, computed } from 'vue';
 import { useRouter } from "vue-router"
 import { useI18n } from 'vue-i18n'
-import { setLocale } from '@/i18n'
+import { setLocale } from '@/i18n/i18n'
 import { gsap } from 'gsap';
 
 const router = useRouter()

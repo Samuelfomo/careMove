@@ -7,7 +7,7 @@
 
       <!-- Partie gauche -->
       <div class="bg-white shadow-xl border-2 border-secondary-500 rounded-xl p-6 max-w-sm w-full">
-        <img src="../src/assets/images/profile.png" alt="User Photo" class="w-48 h-56 object-cover mx-auto rounded-md mb-6" />
+        <img src="../src/assets/images/profile.webp" alt="User Photo" class="w-48 h-56 object-cover mx-auto rounded-md mb-6" />
         <div class="space-y-4 px-10">
           <div class="flex justify-between items-center">
             <span class="text-gray-600 font-medium">Nom :</span>

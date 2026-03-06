@@ -5,17 +5,20 @@
     <main
       class="flex-1 flex items-center min-h-full
       justify-center px-4 pb-10 overflow-hidden relative
-      bg-gradient-to-br from-secondary-200/50  to-secondary-100/50
+      bg-gradient-to-br from-secondary/40  to-secondary/40
 ">
-<!--      <div class="absolute inset-0">-->
+      <div class="absolute inset-0">
 
-<!--        <div class="absolute inset-0 bg-primary-900/70"></div>-->
+        <div class="absolute inset-0 bg-primary/40"></div>
 
-<!--        &lt;!&ndash; Floating Elements &ndash;&gt;-->
-<!--        <div class="absolute top-20 left-10 w-20 h-20 bg-secondary/20 rounded-full blur-xl animate-pulse"></div>-->
-<!--        <div class="absolute bottom-32 right-16 w-32 h-32 bg-primary-accent/20 rounded-full blur-2xl animate-bounce-light"></div>-->
-<!--        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-secondary-accent/30 rounded-full blur-lg animate-pulse"></div>-->
-<!--      </div>-->
+        <!-- Floating Elements -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-white/30 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute top-20 right-10 w-20 h-20 bg-white/30 rounded-full blur-xl animate-pulse"></div>
+        <div class="absolute bottom-32 right-16 w-32 h-32 bg-white/30 rounded-full blur-2xl animate-bounce-light"></div>
+        <div class="absolute bottom-32 left-16 w-32 h-32 bg-white/30 rounded-full blur-2xl animate-bounce-light"></div>
+        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-white/30 rounded-full blur-lg animate-pulse"></div>
+        <div class="absolute top-1/2 right-1/4 w-16 h-16 bg-white/30 rounded-full blur-lg animate-pulse"></div>
+      </div>
       <div class="w-full max-w-2xl lg:pt-0 pt-28">
         <div class="text-center">
           <img :src="Logo" alt="Kombi solution +" class="inset-0  object-cover">
