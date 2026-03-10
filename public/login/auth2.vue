@@ -21,7 +21,7 @@
       </div>
       <div class="w-full max-w-2xl lg:pt-0 pt-28">
         <div class="text-center">
-          <img :src="Logo" alt="Kombi solution +" class="inset-0  object-cover">
+          <img v-if="logoLoaded" :src="Logo" alt="Kombi solution +" class="inset-0  object-cover">
         </div>
 
         <!-- Interface 1 : Demande de token (maintenant première) -->
@@ -315,6 +315,7 @@
     </main>
 
     <!-- Footer adapté pour ShareWuma -->
+    <SupportWidget />
   </div>
 </template>
 
@@ -323,11 +324,14 @@ import { ref, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import Header from "@public/components/header.vue";
 import Logo from "@/assets/images/logo/kombi.svg";
+import SupportWidget from "@public/components/supportWidget.vue";
 
 // État réactif - Vue par défaut changée de 'token' à 'request'
 const currentView = ref('request') // 'request', 'token', 'email'
 const isLoading = ref(false)
 const showPassword = ref(false)
+
+const logoLoaded = ref(false)
 
 // Données des formulaires
 const tokenData = ref({
@@ -493,6 +497,12 @@ const loginWithEmail = async () => {
 
 // Animation d'entrée au montage
 onMounted(() => {
+
+  const img = new Image()
+  img.src = Logo
+  img.onload = () => {
+    logoLoaded.value = true
+  }
   const currentForm = getCurrentFormRef()
   if (currentForm) {
     gsap.fromTo(currentForm, {

@@ -10,6 +10,7 @@ import ProposeTrip from '../../public/proposeTrip.vue';
 import searchTrip from '../../public/searchTrip.vue';
 import Profile from '../../public/profile.vue';
 import Dashboard from '../../public/app/components/dashboard.vue';
+import SupportItem from '../../public/components/supportWidget.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -60,6 +61,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+  },{
+    path: '/support',
+    name: 'support',
+    component: SupportItem,
   },
 ];
 

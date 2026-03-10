@@ -313,71 +313,92 @@ const selectProposition = (proposition) => {
     </section>
 
     <!-- main section -->
-    <section class="min-h-screen overflow-hidden">
-      <div class=" w-full h-full inset-0 p-4 lg:max-w-7xl mx-auto">
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-primary text-center py-4">Lorem Ipsum Generator</h1>
+
+    <section class="min-h-screen">
+
+      <div class="w-full p-4 lg:max-w-7xl mx-auto">
+
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-primary text-center py-4">
+          Lorem Ipsum Generator
+        </h1>
+
         <div class="flex flex-col space-y-4 py-4">
-          <div class="grid md:grid-cols-2 grid-cols-1 h-[50vh] container mx-auto">
-            <div class="bg-[url('@/assets/images/fam/img.png')] bg-cover bg-center shadow-lg cursor-pointer">
+
+          <!-- block 1 -->
+          <div class="grid md:grid-cols-2 grid-cols-1 min-h-[400px] container mx-auto">
+
+              <div class="bg-[url('@/assets/images/fam/img.png')]
+            bg-cover bg-center shadow-lg cursor-pointer aspect-[16/9] md:aspect-auto">
             </div>
+
             <div class="flex flex-col justify-center items-start bg-neutral-100 p-10 space-y-2">
               <span class="text-md font-semibold text-neutral-500/90">Generator</span>
-              <span class="text-lg font-bold ">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.
-                Dolor sit amet consectetur adipiscing elit quisque faucibus.
-              </span>
+
+              <span class="text-lg font-bold">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          </span>
+
               <span class="text-sm font-medium">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.
-                Quisque faucibus ex sapien vitae pellentesque sem placerat.
-                In id cursus mi pretium tellus duis convallis.
-              </span>
+            Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          </span>
+
               <span class="text-lg font-medium text-secondary-500 cursor-pointer">
-                  Learn more
-                </span>
+            Learn more
+          </span>
             </div>
+
           </div>
-          <div class="grid grid-cols-3 space-x-4 h-[50vh] container mx-auto">
-            <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="@/assets/images/fam/img.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+
+          <!-- block 2 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto">
+
+            <div class="shadow-md">
+              <img src="@/assets/images/fam/img.png" class="w-full h-60 object-cover">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
-                </span>
+              Lorem ipsum dolor sit amet consectetur adipiscing elit.
+            </span>
                 <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
-                  Learn more
-                </span>
+              Learn more
+            </span>
               </div>
             </div>
-            <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="@/assets/images/fam/img_1.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+
+            <div class="shadow-md">
+              <img src="@/assets/images/fam/img_1.png" class="w-full h-60 object-cover">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
-                </span>
+              Lorem ipsum dolor sit amet consectetur adipiscing elit.
+            </span>
                 <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
-                  Learn more
-                </span>
+              Learn more
+            </span>
               </div>
             </div>
-            <div class="h-full grid grid-cols-1 shadow-md">
-              <img src="@/assets/images/fam/img_2.png" alt="img_2" class="w-full h-full object-cover cursor-pointer">
+
+            <div class="shadow-md">
+              <img src="@/assets/images/fam/img_2.png" class="w-full h-60 object-cover">
               <div class="flex flex-col p-4">
                 <span class="text-md font-semibold text-neutral-400">Lorem Ipsum</span>
                 <span class="text-lg font-semibold">
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.
-                </span>
+              Lorem ipsum dolor sit amet consectetur adipiscing elit.
+            </span>
                 <span class="text-md font-medium text-secondary-500 pt-3 cursor-pointer">
-                  Learn more
-                </span>
+              Learn more
+            </span>
               </div>
             </div>
+
           </div>
+
         </div>
 
       </div>
-      <div class=" w-full inset-0  bg-gradient-to-r from-primary-900 to-primary-800 opacity-50 py-10">
+
+      <!-- gradient section -->
+      <div class="w-full bg-gradient-to-r from-primary-900 to-primary-800 py-10">
         <div class="mx-auto container p-10 bg-red-400"></div>
       </div>
 
